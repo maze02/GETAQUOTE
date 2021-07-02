@@ -1,77 +1,116 @@
 import { Route, Switch } from "react-router-dom";
-import { useState } from "react";
+import { useState, Fragment, useEffect } from "react";
 
 import HomePage from "./pages/HomePage";
 import QuotePage from "./pages/QuotePage";
 import FavoritesPage from "./pages/FavoritesPage";
 import MainNavigation from "./components/layout/MainNavigation";
+import QuoteWebExtras from "./components/QuoteWebExtras";
+import classes from "./App.module.css";
 //import Todo from "./components/Todo";
 //import BudgetDetails from "./components/BudgetDetails";
 
 const App = () => {
   const [total, setTotal] = useState(0);
-  const [extras, setExtras] = useState(100);
-  //const [checkboxState, setCheckbox] = useState();
   const [content, setContent] = useState(null);
+  const [pageNum, setPageNum] = useState(1);
+  const [langNum, setLangNum] = useState(1);
+  const [isWebpage, setIsWebpage] = useState(false);
   let contentI = (
-    <fragment>
-      <label>Number of pages</label>
-      <input type="number" id="pageNum" min="1" onChange={handleExtra} />
-      <br></br>
-      <label>Number of languages</label>
-      <input type="number" id="pageNum" min="1" onChange={handleExtra} />
-    </fragment>
+    <QuoteWebExtras
+      type="number"
+      id="pageNumber"
+      min="1"
+      onChange={handleExtra}
+    />
   );
-  //let content = null;
+
   function handlechange(e) {
-    let checkboxId = e.target.id;
+    console.log("I'm rendering");
+    let inputId = e.target.id;
     let checkedStatus = e.target.checked;
     //let content = null;
 
     let modTotal = total; //initial modTotal
     let modNum = Number(e.target.value);
-    //console.log(e.target.checked);
 
-    //console.log(e.target.value);
-    if (checkboxId === "webpage" && checkedStatus) {
+    if (inputId === "webpage" && checkedStatus) {
+      modTotal += modNum;
       console.log("webpage checkbox detected and ticked as true");
+      console.log(e.target.value);
+      console.log(modNum);
       setContent(contentI);
+      setIsWebpage(true);
     }
-    if (checkboxId === "webpage" && !checkedStatus) {
+    if (inputId === "webpage" && !checkedStatus) {
+      modTotal -= modNum;
       console.log("webpage checkbox detected and ticked as true");
       setContent(null);
+      setIsWebpage(false);
     }
-    if (checkedStatus) {
+
+    //if input = to extras, add to extra
+    //problem is whatever is added to the extra needs to be added at the end
+    //final result always needs to reflect the latest input
+    /*
+    if (inputId === "pageNum") {
+      setPageNum((preV) => {
+        return e.target.value;
+      });
+      console.log(e.target.value);
+    }
+
+    if (inputId === "langNum") {
+      setLangNum((preV) => {
+        return e.target.value;
+      });
+    }
+*/
+    if (
+      checkedStatus &&
+      inputId !== "pageNum" &&
+      inputId !== "langNum" &&
+      inputId !== "webpage"
+    ) {
       console.log("add " + e.target.value + " to quote");
       modTotal += modNum;
-    } else {
+    }
+    if (
+      !checkedStatus &&
+      inputId !== "pageNum" &&
+      inputId !== "langNum" &&
+      inputId !== "webpage"
+    ) {
       console.log("remove " + e.target.value + " from quote");
       modTotal -= modNum;
     }
 
     console.log("Changed");
+    let totalExtra = 0;
+    //let totalExtra = Number(pageNum) * Number(langNum) * 30;
     setTotal(modTotal);
-
-    console.log("changed extras");
   }
 
   function handleExtra(e) {
-    console.log("hey I'm responding to click");
-    console.log("extras current val = " + extras);
-    //setExtras(e.target.value);
-    setExtras((prevState) => {
-      return 7000;
-    });
-    console.log(extras);
-
-    /* setExtras(100);
-    if (e.target.value > 0) {
-      let newExtra = extras + Number(e.target.value);
-
-      console.log(newExtra);
-      console.log("new extras value is " + extras);
+    if (e.target.id === "pageNum") {
+      console.log(e.target.value);
+      //setPageNum(e.target.value);
+      //setPageNum(9000);
+      setPageNum((preV) => {
+        return e.target.value;
+      });
+      console.log("this is pageNum " + pageNum);
     }
-    */
+    if (e.target.id === "langNum") {
+      console.log(e.target.value);
+      //setPageNum(e.target.Value);
+      //setPageNum(9000);
+      setLangNum((preV) => {
+        return e.target.value;
+      });
+      console.log("this is langNum " + pageNum);
+    }
+    //console.log("extras current val = " + extras);
   }
 
   return (
@@ -94,26 +133,26 @@ const App = () => {
       <h2>What would you like to do?</h2>
       <div>
         <form>
-          <input
-            type="checkbox"
-            id="webpage"
-            value="500"
-            onChange={handlechange}
-          />
-          <label htmlFor="webPage"> A webpage (500 €)</label>
-          <div>{content}</div>
-          <br></br>
-          <br></br>
-          <input
-            type="checkbox"
-            id="Seo"
-            name="seo"
-            value="300"
-            onChange={handlechange}
-          />
-          <label htmlFor="Seo"> SEO consultation (300 €)</label>
-          <br></br>
-          <br></br>
+          <div className={classes.spacer}>
+            <input
+              type="checkbox"
+              id="webpage"
+              value="500"
+              onChange={handlechange}
+            />
+            <label htmlFor="webPage">A webpage (500 €)</label>
+            <div>{content}</div>
+          </div>
+          <div className={classes.spacer}>
+            <input
+              type="checkbox"
+              id="Seo"
+              name="seo"
+              value="300"
+              onChange={handlechange}
+            />
+            <label htmlFor="Seo">SEO consultation (300 €)</label>
+          </div>
           <input
             type="checkbox"
             id="googleAdsCampaign"
@@ -125,7 +164,10 @@ const App = () => {
           <br></br>
         </form>
       </div>
-      <h2>Total Price: {total} €</h2>
+      <h2>
+        Total Price:
+        {isWebpage ? total + Number(pageNum) * Number(langNum) * 30 : total} €
+      </h2>
     </div>
   );
 };
