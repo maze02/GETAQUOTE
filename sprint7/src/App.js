@@ -16,20 +16,11 @@ const App = () => {
   const [pageNum, setPageNum] = useState(1);
   const [langNum, setLangNum] = useState(1);
   const [isWebpage, setIsWebpage] = useState(false);
-  let contentI = (
-    <QuoteWebExtras
-      type="number"
-      id="pageNumber"
-      min="1"
-      onChange={handleExtra}
-    />
-  );
 
-  function handlechange(e) {
+  const handlechange = (e) => {
     console.log("I'm rendering");
     let inputId = e.target.id;
     let checkedStatus = e.target.checked;
-    //let content = null;
 
     let modTotal = total; //initial modTotal
     let modNum = Number(e.target.value);
@@ -89,9 +80,9 @@ const App = () => {
     let totalExtra = 0;
     //let totalExtra = Number(pageNum) * Number(langNum) * 30;
     setTotal(modTotal);
-  }
+  };
 
-  function handleExtra(e) {
+  const handleExtra = (e) => {
     if (e.target.id === "pageNum") {
       console.log(e.target.value);
       //setPageNum(e.target.value);
@@ -111,7 +102,15 @@ const App = () => {
       console.log("this is langNum " + pageNum);
     }
     //console.log("extras current val = " + extras);
-  }
+  };
+  let contentI = (
+    <QuoteWebExtras
+      setLangNum={setLangNum}
+      setPageNum={setPageNum}
+      langNum={langNum}
+      pageNum={pageNum}
+    />
+  );
 
   return (
     <div>
@@ -166,7 +165,7 @@ const App = () => {
       </div>
       <h2>
         Total Price:
-        {isWebpage ? total + Number(pageNum) * Number(langNum) * 30 : total} €
+        {isWebpage ? Number(pageNum) * Number(langNum) * 30 + total : total} €
       </h2>
     </div>
   );

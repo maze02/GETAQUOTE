@@ -1,26 +1,23 @@
-import { Fragment } from "react";
 import classes from "./QuoteWebExtras.module.css";
 import WebExtrasButtons from "./WebExtrasButtons";
+//import App from "../App";
 
-const QuoteWebExtras = (props) => {
+const QuoteWebExtras = ({ setPageNum, setLangNum, pageNum, langNum }) => {
   return (
     <div className={classes.card}>
       <label>Number of pages</label>
-      <input
-        type={props.type}
-        id={props.id}
-        min={props.min}
-        onChange={props.handleExtra}
+      <WebExtrasButtons
+        className="pages"
+        counter={pageNum}
+        setPageNum={setPageNum}
       />
 
       <label>Number of languages</label>
-      <input
-        type={props.type}
-        id={props.id}
-        min={props.min}
-        onChange={props.handleExtra}
+      <WebExtrasButtons
+        className="languages"
+        counter={langNum}
+        setLangNum={setLangNum}
       />
-      <WebExtrasButtons />
     </div>
   );
 };
