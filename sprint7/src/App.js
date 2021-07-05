@@ -11,9 +11,13 @@ import "./App.css";
 //import ModalUI from "./components/ModalUI";
 //import { classes } from "./App.module.css";
 const App = () => {
+  const [clientName, setClientName] = useState();
+  const [clientSurname, setClientSurname] = useState();
   const [pageNum, setPageNum] = useState(1);
   const [langNum, setLangNum] = useState(1);
   const [isWebpage, setIsWebpage] = useState(false);
+  const [isSeo, setIsSeo] = useState(false);
+  const [isAds, setIsAds] = useState(false);
   const [modalPageOpen, setModalPageOpen] = useState(false);
   const [modalLangOpen, setModalLangOpen] = useState(false);
   const [total, setTotal] = useState(0);
@@ -23,7 +27,7 @@ const App = () => {
   if (!initialQuotes) {
     initialQuotes = [];
   }
-
+  const [quoteList, setQuoteList] = useState([]);
   const [quotes, setQuote] = useState(initialQuotes);
   //const [quotes, setQuotes] = useState(initialQuotes);
 
@@ -37,10 +41,14 @@ const App = () => {
           </Route>
           <Route path="/new-quote">
             <QuotePage
+              clientName={clientName}
+              clientSurname={clientSurname}
               pageNum={pageNum}
               langNum={langNum}
               total={total}
               isWebpage={isWebpage}
+              isAds={isAds}
+              isSeo={isSeo}
               quotes={quotes}
               initialQuotes={initialQuotes}
               modalPageOpen={modalPageOpen}
@@ -50,9 +58,13 @@ const App = () => {
               setIsWebpage={setIsWebpage}
               setPageNum={setPageNum}
               setLangNum={setLangNum}
+              setIsSeo={setIsSeo}
+              setIsAds={setIsAds}
+              setClientName={setClientName}
+              setClientSurname={setClientSurname}
               setModalPageOpen={setModalPageOpen}
               setModalLangOpen={setModalLangOpen}
-              setQuote={setQuote}
+              setQuoteList={setQuoteList}
             />
           </Route>
           <Route path="/favorites">
