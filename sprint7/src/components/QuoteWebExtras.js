@@ -1,8 +1,16 @@
 import classes from "./QuoteWebExtras.module.css";
 import WebExtrasButtons from "./WebExtrasButtons";
+
 //import App from "../App";
 
-const QuoteWebExtras = ({ setPageNum, setLangNum, pageNum, langNum }) => {
+const QuoteWebExtras = ({
+  pageNum,
+  langNum,
+  setPageNum,
+  setLangNum,
+  setQuote,
+  modalPackage,
+}) => {
   return (
     <div className={classes.card}>
       <label>Number of pages</label>
@@ -10,6 +18,9 @@ const QuoteWebExtras = ({ setPageNum, setLangNum, pageNum, langNum }) => {
         className="pages"
         counter={pageNum}
         setPageNum={setPageNum}
+        setQuote={setQuote}
+        modalPackage={modalPackage}
+        id="pages"
       />
 
       <label>Number of languages</label>
@@ -17,6 +28,9 @@ const QuoteWebExtras = ({ setPageNum, setLangNum, pageNum, langNum }) => {
         className="languages"
         counter={langNum}
         setLangNum={setLangNum}
+        setQuote={setQuote}
+        modalPackage={modalPackage}
+        id="languages"
       />
     </div>
   );

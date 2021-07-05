@@ -1,6 +1,6 @@
 .container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   justify-content: center;
 }
 
@@ -17,4 +17,9 @@
 .counter {
   justify-self: center;
   align-self: center;
+}
+
+.info {
+  width: 60%;
+  height: auto;
 }

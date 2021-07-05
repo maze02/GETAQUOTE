@@ -1,119 +1,123 @@
 import { Route, Switch } from "react-router-dom";
-import { useState, Fragment, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import HomePage from "./pages/HomePage";
 import QuotePage from "./pages/QuotePage";
 import FavoritesPage from "./pages/FavoritesPage";
 import MainNavigation from "./components/layout/MainNavigation";
 import QuoteWebExtras from "./components/QuoteWebExtras";
-import classes from "./App.module.css";
-//import Todo from "./components/Todo";
-//import BudgetDetails from "./components/BudgetDetails";
-
+import "./App.css";
+import Modalinfo from "./components/Modalinfo";
+import Backdrop from "./components/Backdrop";
+//import ModalUI from "./components/ModalUI";
+//import { classes } from "./App.module.css";
 const App = () => {
-  const [total, setTotal] = useState(0);
-  const [content, setContent] = useState(null);
   const [pageNum, setPageNum] = useState(1);
   const [langNum, setLangNum] = useState(1);
   const [isWebpage, setIsWebpage] = useState(false);
+  const [modalPageOpen, setModalPageOpen] = useState(false);
+  const [modalLangOpen, setModalLangOpen] = useState(false);
+  const [total, setTotal] = useState(0);
 
-  const handlechange = (e) => {
-    console.log("I'm rendering");
-    let inputId = e.target.id;
-    let checkedStatus = e.target.checked;
+  //local storage can only store strings :: use JSON.parse
+  let initialQuotes = JSON.parse(localStorage.getItem("quotes"));
+  if (!initialQuotes) {
+    initialQuotes = [];
+  }
+  const [quotes, setQuote] = useState(initialQuotes);
+  //const [quotes, setQuotes] = useState(initialQuotes);
 
-    let modTotal = total; //initial modTotal
-    let modNum = Number(e.target.value);
+  const handlechange = useCallback(
+    (e) => {
+      console.log("I'm rendering");
+      let inputId = e.target.id;
+      let checkedStatus = e.target.checked;
 
-    if (inputId === "webpage" && checkedStatus) {
-      modTotal += modNum;
-      console.log("webpage checkbox detected and ticked as true");
-      console.log(e.target.value);
-      console.log(modNum);
-      setContent(contentI);
-      setIsWebpage(true);
-    }
-    if (inputId === "webpage" && !checkedStatus) {
-      modTotal -= modNum;
-      console.log("webpage checkbox detected and ticked as true");
-      setContent(null);
-      setIsWebpage(false);
-    }
+      let modTotal = total; //initial modTotal
+      let modNum = Number(e.target.value);
 
-    //if input = to extras, add to extra
-    //problem is whatever is added to the extra needs to be added at the end
-    //final result always needs to reflect the latest input
-    /*
-    if (inputId === "pageNum") {
-      setPageNum((preV) => {
-        return e.target.value;
-      });
-      console.log(e.target.value);
-    }
+      if (inputId === "webpage" && checkedStatus) {
+        modTotal += modNum;
+        console.log("webpage checkbox detected and ticked as true");
+        console.log(e.target.value);
+        console.log(modNum);
+        setIsWebpage(true);
+      }
+      if (inputId === "webpage" && !checkedStatus) {
+        modTotal -= modNum;
+        console.log("webpage checkbox detected and ticked as true");
+        setIsWebpage(false);
+      }
 
-    if (inputId === "langNum") {
-      setLangNum((preV) => {
-        return e.target.value;
-      });
-    }
-*/
-    if (
-      checkedStatus &&
-      inputId !== "pageNum" &&
-      inputId !== "langNum" &&
-      inputId !== "webpage"
-    ) {
-      console.log("add " + e.target.value + " to quote");
-      modTotal += modNum;
-    }
-    if (
-      !checkedStatus &&
-      inputId !== "pageNum" &&
-      inputId !== "langNum" &&
-      inputId !== "webpage"
-    ) {
-      console.log("remove " + e.target.value + " from quote");
-      modTotal -= modNum;
-    }
+      if (
+        checkedStatus &&
+        inputId !== "pageNum" &&
+        inputId !== "langNum" &&
+        inputId !== "webpage"
+      ) {
+        console.log("add " + e.target.value + " to quote");
+        modTotal += modNum;
+      }
+      if (
+        !checkedStatus &&
+        inputId !== "pageNum" &&
+        inputId !== "langNum" &&
+        inputId !== "webpage"
+      ) {
+        console.log("remove " + e.target.value + " from quote");
+        modTotal -= modNum;
+      }
+      setTotal(modTotal);
+      setQuote([
+        { pageNum: pageNum },
+        { langNum: langNum },
+        { total: total },
+        { isWebpage: isWebpage },
+      ]);
+    },
+    [pageNum, langNum, total, isWebpage, setIsWebpage, setTotal]
+  );
 
-    console.log("Changed");
-    let totalExtra = 0;
-    //let totalExtra = Number(pageNum) * Number(langNum) * 30;
-    setTotal(modTotal);
-  };
-
-  const handleExtra = (e) => {
-    if (e.target.id === "pageNum") {
-      console.log(e.target.value);
-      //setPageNum(e.target.value);
-      //setPageNum(9000);
-      setPageNum((preV) => {
-        return e.target.value;
-      });
-      console.log("this is pageNum " + pageNum);
-    }
-    if (e.target.id === "langNum") {
-      console.log(e.target.value);
-      //setPageNum(e.target.Value);
-      //setPageNum(9000);
-      setLangNum((preV) => {
-        return e.target.value;
-      });
-      console.log("this is langNum " + pageNum);
-    }
-    //console.log("extras current val = " + extras);
-  };
   let contentI = (
     <QuoteWebExtras
       setLangNum={setLangNum}
       setPageNum={setPageNum}
       langNum={langNum}
       pageNum={pageNum}
+      setQuote={setQuote}
+      modalPackage={{
+        setModalLangOpen: setModalLangOpen,
+        setModalPageOpen: setModalPageOpen,
+        modalLangOpen: modalLangOpen,
+        modalPageOpen: modalPageOpen,
+      }}
     />
   );
 
+  useEffect(() => {
+    localStorage.setItem("quotes", JSON.stringify(quotes));
+  }, [
+    initialQuotes,
+    quotes,
+    total,
+    pageNum,
+    langNum,
+    isWebpage,
+    setTotal,
+    setPageNum,
+    setLangNum,
+    setIsWebpage,
+    handlechange,
+  ]);
+
+  const closeModal = () => {
+    console.log("I clicked on the modal");
+    setModalLangOpen(false);
+    setModalPageOpen(false);
+  };
+
   return (
-    <div>
+    <div className="App">
       <div>
         <MainNavigation />
         <Switch>
@@ -132,7 +136,7 @@ const App = () => {
       <h2>What would you like to do?</h2>
       <div>
         <form>
-          <div className={classes.spacer}>
+          <div className="spacer">
             <input
               type="checkbox"
               id="webpage"
@@ -140,9 +144,9 @@ const App = () => {
               onChange={handlechange}
             />
             <label htmlFor="webPage">A webpage (500 €)</label>
-            <div>{content}</div>
+            <div>{isWebpage ? contentI : null}</div>
           </div>
-          <div className={classes.spacer}>
+          <div className="spacer">
             <input
               type="checkbox"
               id="Seo"
@@ -167,6 +171,13 @@ const App = () => {
         Total Price:
         {isWebpage ? Number(pageNum) * Number(langNum) * 30 + total : total} €
       </h2>
+      <div>
+        {modalLangOpen ? <Modalinfo id="languages" number={langNum} /> : null}
+        {modalPageOpen ? <Modalinfo id="pages" number={pageNum} /> : null}
+        {modalLangOpen || modalPageOpen ? (
+          <Backdrop onClick={closeModal} />
+        ) : null}
+      </div>
     </div>
   );
 };
@@ -215,5 +226,47 @@ const BudgetDetails = () => {
 
 export default BudgetDetails;
 
+
 */
 export default App;
+
+//learnings:
+//1.do not add a component that has mutable state or has state that's going to change
+//in another state because otherwise when the other function is muting the inner state, it's violating the outer state container by modifying it directly without using setState type function
+//2.do not wrap an object as a variable if it's not an object and it's in Js land
+//otherwise it's destructuring it
+//3. use prev state to ensure update is immediate in the component
+
+/*
+  useEffect(() => {
+    if (initialQuotes) {
+      setQuotes([
+        { total: total },
+        { pageNum: pageNum },
+        { langNum: langNum },
+        { isWebpage: isWebpage },
+      ]);
+      localStorage.setItem("quotes", JSON.stringify(quotes));
+    } else {
+      setQuotes([
+        { total: total },
+        { pageNum: pageNum },
+        { langNum: langNum },
+        { isWebpage: isWebpage },
+      ]);
+      localStorage.setItem("quotes", JSON.stringify(quotes));
+    }
+  }, [
+    quotes,
+    total,
+    pageNum,
+    langNum,
+    isWebpage,
+    setTotal,
+    setPageNum,
+    setLangNum,
+    setIsWebpage,
+  ]);
+
+
+*/
