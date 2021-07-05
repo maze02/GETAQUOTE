@@ -2,6 +2,8 @@ import { useCallback, useEffect } from "react";
 import Modalinfo from "../components/Modalinfo";
 import Backdrop from "../components/Backdrop";
 import QuoteWebExtras from "../components/QuoteWebExtras";
+import SavedQuoteCard from "../components/SavedQuoteCard";
+import { v4 as uuidv4 } from "uuid";
 
 const QuotePage = ({
   clientName,
@@ -172,27 +174,28 @@ const QuotePage = ({
   ) => {
     return {
       id: cId,
-      qName: cName,
-      qSurname: cSurname,
-      qWebpage: cWebpage,
-      qLangNum: cLangNum,
-      qPageNum: cPageNum,
-      qSeo: cSeo,
-      qAds: cAds,
-      qTotal: cTotal,
+      nameQ: cName,
+      surnameQ: cSurname,
+      webpageQ: cWebpage,
+      langNumQ: cLangNum,
+      pageNumQ: cPageNum,
+      seoQ: cSeo,
+      adsQ: cAds,
+      totalQ: cTotal,
     };
   };
 
-  const addToQuoteList = (quote) => {
-    setQuoteList([...quoteList, quote]);
-    console.log("in addToQuoteList function");
-    console.log("quote added" + quote);
-    console.log("quoteList is" + quoteList);
-  };
-
-  const handleSubmitForm = () => {
-    //adds quote
-    /*
+  const handleSubmitForm = useCallback(
+    (e) => {
+      e.preventDefault();
+      const addToQuoteList = (quote) => {
+        setQuoteList([...quoteList, quote]);
+        console.log("in addToQuoteList function");
+        console.log("quote added" + quote);
+        console.log("quoteList is" + quoteList);
+      };
+      //adds quote
+      /*
     const Quote = new QuoteCreator(
       23,
       clientName,
@@ -204,28 +207,53 @@ const QuotePage = ({
       isAds,
       total
     );
-*/ const Quote = new QuoteCreator(
-      23,
+    
+    
+*/
+      let id = uuidv4();
+      const Quote = QuoteCreator(
+        id,
+        clientName,
+        clientSurname,
+        isWebpage,
+        langNum,
+        pageNum,
+        isSeo,
+        isAds,
+        total
+      );
+
+      addToQuoteList(Quote);
+      console.log("quote id is " + Quote.id);
+    },
+    [
+      setQuoteList,
       clientName,
       clientSurname,
+      isSeo,
       isWebpage,
       langNum,
       pageNum,
-      isSeo,
+      quoteList,
+      total,
       isAds,
-      total
-    );
+    ]
+  );
 
-    //clears form
-    addToQuoteList(Quote);
-  };
+  /*creating unique id
+  1. npm i uuid -> in the terminal
+  2. import it @ the top:  import { v4 as uuidv4 } from "uuid";
+  */
+
+  /*quoteList.map((quote) => {
+    return */
 
   return (
     <div>
       <h2>Generate a quote</h2>
       <h3>What would you like to do?</h3>
       <div>
-        <form onSubmit={handleSubmitForm}>
+        <form>
           <p>Client Details</p>
           <div className="spacer">
             <label htmlFor="clientName">Name</label>
@@ -277,15 +305,53 @@ const QuotePage = ({
               <Backdrop onClick={closeModal} />
             )}
           </div>
-          <button type="button">Save Quote</button>
+          <button type="button" onClick={handleSubmitForm}>
+            Save Quote
+          </button>
         </form>
       </div>
 
       <div>
         <h2>Saved Quotes</h2>
+        {quoteList.length === 0 && <p>No quotes added yet</p>}
+        <SavedQuoteCard list={quoteList} />
       </div>
     </div>
   );
 };
 
 export default QuotePage;
+/*
+  {quoteList > 0 && <savedQuoteCard list={quoteList} />}
+const displayQuotes = () => {
+    if (quoteList.length === null) {
+      return <p>No quotes added yet</p>;
+    } else {
+      return 
+      });
+    }
+  };
+*/
+/*Before with nothing
+const displayQuotes = () => {
+    if (quoteList.length === null) {
+      return <p>No quotes added yet</p>;
+    } else {
+      return quoteList.map((quote) => {
+        return (
+          <savedQuoteCard
+            id={quote.id}
+            nameQ={quote.nameQ}
+            surnameQ={quote.surnameQ}
+            langNumQ={quote.langNumQ}
+            pageNumQ={quote.pageNumQ}
+            seoQ={quote.seoQ}
+            adsQ={quote.adsQ}
+            totalQ={quote.totalQ}
+          />
+        );
+      });
+    }
+  };
+
+*/

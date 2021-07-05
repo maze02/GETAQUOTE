@@ -41,6 +41,7 @@ const App = () => {
           </Route>
           <Route path="/new-quote">
             <QuotePage
+              quoteList={quoteList}
               clientName={clientName}
               clientSurname={clientSurname}
               pageNum={pageNum}
