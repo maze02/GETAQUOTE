@@ -1,4 +1,4 @@
-import QuoteItem from "./Quotes/QuoteItem";
+import QuoteItem from "./QuoteItem";
 
 const QuoteFullList = ({ list }) => {
   return list.map((item) => {

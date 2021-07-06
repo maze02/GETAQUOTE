@@ -1,6 +1,6 @@
 import classes from "./WebExtrasButtons.module.css";
 import { useCallback } from "react";
-import infoIcon from "../images/info.svg";
+import infoIcon from "../../../images/info.svg";
 
 const WebExtrasButtons = ({
   setPageNum,

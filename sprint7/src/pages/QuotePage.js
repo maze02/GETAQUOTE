@@ -1,8 +1,8 @@
 import { useCallback, useEffect } from "react";
-import Modalinfo from "../components/Modalinfo";
-import Backdrop from "../components/Backdrop";
-import QuoteWebExtras from "../components/QuoteWebExtras";
-import QuoteFullList from "../components/QuoteFullList";
+import Modalinfo from "../components/Modal/Modalinfo";
+import Backdrop from "../components/Modal/Backdrop";
+import QuoteWebExtras from "../components/Quotes/QuoteExtraDetails/QuoteWebExtras";
+import QuoteFullList from "../components/Quotes/QuoteFullList";
 import { v4 as uuidv4 } from "uuid";
 import classes from "./QuotePage.module.css";
 
