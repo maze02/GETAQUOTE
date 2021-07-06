@@ -2,8 +2,9 @@ import { useCallback, useEffect } from "react";
 import Modalinfo from "../components/Modalinfo";
 import Backdrop from "../components/Backdrop";
 import QuoteWebExtras from "../components/QuoteWebExtras";
-import SavedQuoteCard from "../components/SavedQuoteCard";
+import QuoteFullList from "../components/QuoteFullList";
 import { v4 as uuidv4 } from "uuid";
+import classes from "./QuotePage.module.css";
 
 const QuotePage = ({
   clientName,
@@ -26,6 +27,8 @@ const QuotePage = ({
   setModalPageOpen,
   setModalLangOpen,
   setIsWebpage,
+  setIsSeo,
+  setIsAds,
   setPageNum,
   setLangNum,
   setQuoteList,
@@ -48,15 +51,27 @@ const QuotePage = ({
 
       if (inputId === "webpage" && checkedStatus) {
         modTotal += modNum;
-        console.log("webpage checkbox detected and ticked as true");
-        console.log(e.target.value);
-        console.log(modNum);
         setIsWebpage(true);
       }
       if (inputId === "webpage" && !checkedStatus) {
         modTotal -= modNum;
-        console.log("webpage checkbox detected and ticked as true");
         setIsWebpage(false);
+      }
+
+      if (inputId === "Seo" && checkedStatus) {
+        setIsSeo(true);
+      }
+
+      if (inputId === "Seo" && !checkedStatus) {
+        setIsSeo(false);
+      }
+
+      if (inputId === "googleAdsCampaign" && checkedStatus) {
+        setIsAds(true);
+      }
+
+      if (inputId === "googleAdsCampaign" && !checkedStatus) {
+        setIsAds(false);
       }
 
       if (
@@ -91,6 +106,8 @@ const QuotePage = ({
       total,
       isWebpage,
       setIsWebpage,
+      setIsSeo,
+      setIsAds,
       setTotal,
       setClientName,
       setClientSurname,
@@ -137,30 +154,6 @@ const QuotePage = ({
     setModalPageOpen(false);
   };
 
-  //create a new component that manages the functionality of receiving new quotes and distributing new quotes
-  /*  function QuoteCreator(
-    cId,
-    cName,
-    cSurname,
-    cWebpage,
-    cLangNum,
-    cPageNum,
-    cSeo,
-    cAds,
-    cTotal
-  ) {
-    this.id = cId;
-    this.qName = cName;
-    this.qSurname = cSurname;
-    this.qWebpage = cWebpage;
-    this.qLangNum = cLangNum;
-    this.qPageNum = cPageNum;
-    this.qSeo = cSeo;
-    this.qAds = cAds;
-    this.qTotal = cTotal;
-  }
-*/
-
   const QuoteCreator = (
     cId,
     cName,
@@ -194,22 +187,7 @@ const QuotePage = ({
         console.log("quote added" + quote);
         console.log("quoteList is" + quoteList);
       };
-      //adds quote
-      /*
-    const Quote = new QuoteCreator(
-      23,
-      clientName,
-      clientSurname,
-      isWebpage,
-      langNum,
-      pageNum,
-      isSeo,
-      isAds,
-      total
-    );
-    
-    
-*/
+
       let id = uuidv4();
       const Quote = QuoteCreator(
         id,
@@ -245,14 +223,11 @@ const QuotePage = ({
   2. import it @ the top:  import { v4 as uuidv4 } from "uuid";
   */
 
-  /*quoteList.map((quote) => {
-    return */
-
   return (
-    <div>
-      <h2>Generate a quote</h2>
-      <h3>What would you like to do?</h3>
+    <div className={classes.container}>
       <div>
+        <h2>Generate a quote</h2>
+        <h3>What would you like to do?</h3>
         <form>
           <p>Client Details</p>
           <div className="spacer">
@@ -314,7 +289,7 @@ const QuotePage = ({
       <div>
         <h2>Saved Quotes</h2>
         {quoteList.length === 0 && <p>No quotes added yet</p>}
-        <SavedQuoteCard list={quoteList} />
+        <QuoteFullList list={quoteList} />
       </div>
     </div>
   );
