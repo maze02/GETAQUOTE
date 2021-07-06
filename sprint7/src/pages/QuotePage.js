@@ -1,10 +1,11 @@
-import { useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Modalinfo from "../components/Modal/Modalinfo";
 import Backdrop from "../components/Modal/Backdrop";
 import QuoteWebExtras from "../components/Quotes/QuoteExtraDetails/QuoteWebExtras";
 import QuoteFullList from "../components/Quotes/QuoteFullList";
 import { v4 as uuidv4 } from "uuid";
 import classes from "./QuotePage.module.css";
+import FilterPanel from "../components/Quotes/Filter/FilterPanel";
 
 const QuotePage = ({
   clientName,
@@ -33,6 +34,15 @@ const QuotePage = ({
   setLangNum,
   setQuoteList,
 }) => {
+  const [isFilter, setIsFilter] = useState(true);
+  const [isTotalClicked, setIsTotalClicked] = useState(false);
+  const handleIsFilter = () => {
+    if (!isFilter) {
+      setIsFilter(true);
+    } else {
+      setIsFilter(false);
+    }
+  };
   const handlechange = useCallback(
     (e) => {
       console.log("I'm rendering");
@@ -222,6 +232,13 @@ const QuotePage = ({
   1. npm i uuid -> in the terminal
   2. import it @ the top:  import { v4 as uuidv4 } from "uuid";
   */
+  const handleTotal = () => {
+    if (isTotalClicked) {
+      setIsTotalClicked(false);
+    } else {
+      setIsTotalClicked(true);
+    }
+  };
 
   return (
     <div className={classes.container}>
@@ -288,6 +305,15 @@ const QuotePage = ({
 
       <div>
         <h2>Saved Quotes</h2>
+        <button type="button" onClick={handleIsFilter}>
+          Filter
+        </button>
+        {isFilter && (
+          <FilterPanel
+            handleTotal={handleTotal}
+            isTotalClicked={isTotalClicked}
+          />
+        )}
         {quoteList.length === 0 && <p>No quotes added yet</p>}
         <QuoteFullList list={quoteList} />
       </div>
