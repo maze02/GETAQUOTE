@@ -1,6 +1,5 @@
 import { Fragment } from "react";
 const QuoteItem = ({
-  key,
   id,
   nameQ,
   surnameQ,

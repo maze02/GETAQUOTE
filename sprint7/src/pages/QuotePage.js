@@ -6,6 +6,7 @@ import QuoteFullList from "../components/Quotes/QuoteFullList";
 import { v4 as uuidv4 } from "uuid";
 import classes from "./QuotePage.module.css";
 import FilterPanel from "../components/Quotes/Filter/FilterPanel";
+import FilterFunctionality from "../components/Quotes/Filter/FilterFunctionality";
 
 const QuotePage = ({
   clientName,
@@ -35,7 +36,8 @@ const QuotePage = ({
   setQuoteList,
 }) => {
   const [isFilter, setIsFilter] = useState(true);
-  const [isTotalClicked, setIsTotalClicked] = useState(false);
+  const [isFiltered, setIsFiltered] = useState(false);
+  const [filterList, setFilterList] = useState(quoteList);
   const handleIsFilter = () => {
     if (!isFilter) {
       setIsFilter(true);
@@ -227,19 +229,26 @@ const QuotePage = ({
       isAds,
     ]
   );
+  const handleFilter = (e) => {
+    let inputId = e.target.id;
+    console.log("id is " + inputId);
+    setIsFiltered(true);
 
+    <FilterFunctionality
+      quoteList={quoteList}
+      filterList={filterList}
+      setFilterList={setFilterList}
+    />;
+  };
   /*creating unique id
   1. npm i uuid -> in the terminal
   2. import it @ the top:  import { v4 as uuidv4 } from "uuid";
   */
-  const handleTotal = () => {
-    if (isTotalClicked) {
-      setIsTotalClicked(false);
-    } else {
-      setIsTotalClicked(true);
-    }
-  };
-
+  let filterButtonContent = (
+    <button type="button" onClick={handleIsFilter}>
+      Filter
+    </button>
+  );
   return (
     <div className={classes.container}>
       <div>
@@ -305,17 +314,17 @@ const QuotePage = ({
 
       <div>
         <h2>Saved Quotes</h2>
-        <button type="button" onClick={handleIsFilter}>
-          Filter
-        </button>
-        {isFilter && (
+        {quoteList.length !== 0 && filterButtonContent}
+        {quoteList.length !== 0 && !isFilter && (
           <FilterPanel
-            handleTotal={handleTotal}
-            isTotalClicked={isTotalClicked}
+            quoteList={quoteList}
+            handleFilter={handleFilter}
+            setIsFiltered={setIsFiltered}
           />
         )}
         {quoteList.length === 0 && <p>No quotes added yet</p>}
-        <QuoteFullList list={quoteList} />
+        {!isFiltered && <QuoteFullList list={quoteList} />}
+        {isFiltered && <QuoteFullList list={filterList} />}
       </div>
     </div>
   );
