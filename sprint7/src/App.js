@@ -23,13 +23,24 @@ const App = () => {
   const [total, setTotal] = useState(0);
 
   //local storage can only store strings :: use JSON.parse
-  let initialQuotes = JSON.parse(localStorage.getItem("quotes"));
+  //1. check if there are quotes stored in local storage first
+  let initialQuotes = JSON.parse(localStorage.getItem("quoteList"));
+  //2. if no quotes found, initialise an empty array
   if (!initialQuotes) {
     initialQuotes = [];
   }
-  const [quoteList, setQuoteList] = useState([]);
+  //whatever is in the array, will be what is in the local storage
+  const [quoteList, setQuoteList] = useState(initialQuotes);
   const [quotes, setQuote] = useState(initialQuotes);
-  //const [quotes, setQuotes] = useState(initialQuotes);
+
+  useEffect(() => {
+    if (initialQuotes) {
+      localStorage.setItem("quoteList", JSON.stringify(quoteList));
+    } else {
+      localStorage.setItem("quoteList", JSON.stringify([]));
+      // I don't understand this second line of code
+    }
+  }, [quoteList]);
 
   return (
     <div className="App">

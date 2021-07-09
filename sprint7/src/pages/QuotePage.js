@@ -35,7 +35,7 @@ const QuotePage = ({
   setLangNum,
   setQuoteList,
 }) => {
-  const [isFilter, setIsFilter] = useState(true);
+  const [isFilter, setIsFilter] = useState(false);
   const [isFiltered, setIsFiltered] = useState(false);
   const [filterList, setFilterList] = useState(quoteList);
   const handleIsFilter = () => {
@@ -51,9 +51,6 @@ const QuotePage = ({
       let inputId = e.target.id;
       let checkedStatus = e.target.checked;
 
-      let modTotal = total; //initial modTotal
-      let modNum = Number(e.target.value);
-
       if (inputId === "clientName") {
         setClientName((prev) => e.target.value);
       }
@@ -62,11 +59,9 @@ const QuotePage = ({
       }
 
       if (inputId === "webpage" && checkedStatus) {
-        modTotal += modNum;
         setIsWebpage(true);
       }
       if (inputId === "webpage" && !checkedStatus) {
-        modTotal -= modNum;
         setIsWebpage(false);
       }
 
@@ -85,22 +80,7 @@ const QuotePage = ({
       if (inputId === "googleAdsCampaign" && !checkedStatus) {
         setIsAds(false);
       }
-
-      if (
-        checkedStatus &&
-        (inputId === "googleAdsCampaign" || inputId === "Seo")
-      ) {
-        console.log("add " + e.target.value + " to quote");
-        modTotal += modNum;
-      }
-      if (
-        !checkedStatus &&
-        (inputId === "googleAdsCampaign" || inputId === "Seo")
-      ) {
-        console.log("remove " + e.target.value + " from quote");
-        modTotal -= modNum;
-      }
-      setTotal(modTotal);
+      /*
       setQuote([
         { clientName: clientName },
         { clientSurname: clientSurname },
@@ -109,6 +89,7 @@ const QuotePage = ({
         { total: total },
         { isWebpage: isWebpage },
       ]);
+      */
     },
     [
       clientName,
@@ -126,7 +107,7 @@ const QuotePage = ({
       setQuote,
     ]
   );
-
+  /*
   useEffect(() => {
     localStorage.setItem("quotes", JSON.stringify(quotes));
   }, [
@@ -145,6 +126,7 @@ const QuotePage = ({
     setClientSurname,
     setQuote,
   ]);
+*/
   let contentI = (
     <QuoteWebExtras
       setLangNum={setLangNum}
@@ -161,7 +143,6 @@ const QuotePage = ({
     />
   );
   const closeModal = () => {
-    console.log("I clicked on the modal");
     setModalLangOpen(false);
     setModalPageOpen(false);
   };
@@ -195,9 +176,6 @@ const QuotePage = ({
       e.preventDefault();
       const addToQuoteList = (quote) => {
         setQuoteList([...quoteList, quote]);
-        console.log("in addToQuoteList function");
-        console.log("quote added" + quote);
-        console.log("quoteList is" + quoteList);
       };
 
       let id = uuidv4();
@@ -214,7 +192,6 @@ const QuotePage = ({
       );
 
       addToQuoteList(Quote);
-      console.log("quote id is " + Quote.id);
     },
     [
       setQuoteList,
@@ -229,26 +206,147 @@ const QuotePage = ({
       isAds,
     ]
   );
+  const resetFilterHandler = () => {
+    setFilterList(quoteList);
+    setIsFiltered(false);
+  };
+
   const handleFilter = (e) => {
+    setIsFiltered(true);
     let inputId = e.target.id;
     console.log("id is " + inputId);
-    setIsFiltered(true);
 
-    <FilterFunctionality
-      quoteList={quoteList}
-      filterList={filterList}
-      setFilterList={setFilterList}
-    />;
+    let arr = [];
+    let resArr = [];
+
+    switch (inputId) {
+      case "alphaSort":
+        //alpha sort by surname
+        //-------------------------
+        arr = quoteList;
+        resArr = arr.sort(function (a, b) {
+          let nameA = a.surnameQ.toUpperCase(); // ignore upper and lowercase
+          let nameB = b.surnameQ.toUpperCase(); // ignore upper and lowercase
+          if (nameA < nameB) {
+            return -1;
+          }
+          if (nameA > nameB) {
+            return 1;
+          }
+          // names must be equal
+          return 0;
+        });
+
+        break;
+
+      case "totalSort":
+        //sort by total descending
+        //-------------------------
+        arr = quoteList;
+        resArr = arr.sort(function (a, b) {
+          return b.totalQ - a.totalQ;
+        });
+
+        break;
+      //sort by pageNum descending
+      //-----------------------------
+      case "pageNumSort":
+        arr = quoteList;
+        resArr = arr.sort(function (a, b) {
+          return b.pageNumQ - a.pageNumQ;
+        });
+
+        break;
+      case "langNumSort":
+        arr = quoteList;
+        //sort by langNum descending
+        //-----------------------------
+        resArr = arr.sort(function (a, b) {
+          return b.langNumQ - a.langNumQ;
+        });
+
+        break;
+
+      case "webFilter":
+        arr = quoteList;
+        resArr = arr.filter((a) => a.webpageQ === true);
+        break;
+
+      case "seoFilter":
+        arr = quoteList;
+        resArr = arr.filter((a) => a.seoQ === true);
+        break;
+      case "adsFilter":
+        arr = quoteList;
+        resArr = arr.filter((a) => a.adsQ === true);
+        console.log("adsFilter clicked");
+        console.log(resArr);
+        break;
+
+      case "reset":
+        arr = quoteList;
+        setIsFiltered(false);
+        break;
+
+      default:
+        console.log("reached default case");
+    }
+    setFilterList(resArr);
   };
   /*creating unique id
   1. npm i uuid -> in the terminal
   2. import it @ the top:  import { v4 as uuidv4 } from "uuid";
   */
+
+  const handleShowFilterPanel = () => {
+    if (!isFilter) {
+      setIsFilter(true);
+      console.log("showing filter panel");
+    } else {
+      setIsFilter(false);
+    }
+  };
+
   let filterButtonContent = (
-    <button type="button" onClick={handleIsFilter}>
+    <button type="button" onClick={handleShowFilterPanel}>
       Filter
     </button>
   );
+
+  useEffect(() => {
+    let seoD = isSeo ? 300 : 0;
+    let adsD = isAds ? 200 : 0;
+    let webD = 0;
+    let pageD = 0;
+    let langD = 0;
+
+    if (isWebpage) {
+      webD = 500;
+      pageD = pageNum;
+      langD = langNum;
+    } else {
+      webD = 0;
+      pageD = 0;
+      langD = 0;
+    }
+
+    let totalD = seoD + adsD + (webD + pageD * langD * 30);
+
+    setTotal(totalD);
+    /*
+    setQuote([
+      { clientName: clientName },
+      { clientSurname: clientSurname },
+      { isWebpage: isWebpage },
+      { pageNum: pageNum },
+      { langNum: langNum },
+      { isSeo: isSeo },
+      { isAds: isAds },
+      { total: total },
+    ]);
+    */
+  }, [isWebpage, isSeo, isAds, total, pageNum, langNum, setTotal, setQuote]);
+
   return (
     <div className={classes.container}>
       <div>
@@ -296,8 +394,7 @@ const QuotePage = ({
           <br></br>
           <h2>
             Total Price:
-            {isWebpage ? Number(pageNum) * Number(langNum) * 30 + total : total}
-            €
+            {total}€
           </h2>
           <div>
             {modalLangOpen && <Modalinfo id="languages" number={langNum} />}
@@ -315,15 +412,18 @@ const QuotePage = ({
       <div>
         <h2>Saved Quotes</h2>
         {quoteList.length !== 0 && filterButtonContent}
-        {quoteList.length !== 0 && !isFilter && (
+        {quoteList.length !== 0 && isFilter && (
           <FilterPanel
             quoteList={quoteList}
             handleFilter={handleFilter}
             setIsFiltered={setIsFiltered}
+            resetFilterHandler={resetFilterHandler}
           />
         )}
         {quoteList.length === 0 && <p>No quotes added yet</p>}
-        {!isFiltered && <QuoteFullList list={quoteList} />}
+        {!isFiltered && quoteList.length !== 0 && (
+          <QuoteFullList list={quoteList} />
+        )}
         {isFiltered && <QuoteFullList list={filterList} />}
       </div>
     </div>

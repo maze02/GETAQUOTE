@@ -5,6 +5,7 @@ const FilterPanel = ({
   setIsFiltered,
   isFiltered,
   handleFilter,
+  resetFilterHandler,
 }) => {
   const [isTotalClicked, setIsTotalClicked] = useState(false);
   const [isAlphaSort, setIsAlphaSort] = useState(false);
@@ -89,7 +90,9 @@ const FilterPanel = ({
   //useEffect(handleTotal, [setIsTotalClicked, isTotalClicked]);
   return (
     <Fragment>
-      <button type="button">Reset Filter</button>
+      <button id="reset" type="button" name="filter" onClick={handleFilter}>
+        Reset Filter
+      </button>
       <form>
         <p>Sort by</p>
         <hr></hr>
@@ -135,11 +138,11 @@ const FilterPanel = ({
         <div>
           <input
             type="radio"
-            id="langNumSort"
+            id="pageNumSort"
             name="filter"
             onChange={handleFilter}
           />
-          <label htmlFor="langNumSort">Greatest number of Pages</label>
+          <label htmlFor="pageNumSort">Greatest number of Pages</label>
         </div>
         <p>Filter quotes which include:</p>
         <hr></hr>
