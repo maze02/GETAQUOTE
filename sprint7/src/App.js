@@ -1,5 +1,8 @@
 import { Route, Switch } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 import HomePage from "./pages/HomePage";
 import QuotePage from "./pages/QuotePage";
@@ -22,6 +25,7 @@ const App = () => {
   const [modalLangOpen, setModalLangOpen] = useState(false);
   const [total, setTotal] = useState(0);
 
+  library.add(fab, faSearch);
   //local storage can only store strings :: use JSON.parse
   //1. check if there are quotes stored in local storage first
   let initialQuotes = JSON.parse(localStorage.getItem("quoteList"));
@@ -96,37 +100,12 @@ export default App;
 //2.do not wrap an object as a variable if it's not an object and it's in Js land
 //otherwise it's destructuring it
 //3. use prev state to ensure update is immediate in the component
+//4. use 'fab' instead of 'fas' in font awesome:
+//https://fontawesome.com/v5.15/how-to-use/on-the-web/using-with/react
 
+//<i class="fas fa-search"></i>  NOPE
+//<FontAwesomeIcon icon="search" />
 /*
-  useEffect(() => {
-    if (initialQuotes) {
-      setQuotes([
-        { total: total },
-        { pageNum: pageNum },
-        { langNum: langNum },
-        { isWebpage: isWebpage },
-      ]);
-      localStorage.setItem("quotes", JSON.stringify(quotes));
-    } else {
-      setQuotes([
-        { total: total },
-        { pageNum: pageNum },
-        { langNum: langNum },
-        { isWebpage: isWebpage },
-      ]);
-      localStorage.setItem("quotes", JSON.stringify(quotes));
-    }
-  }, [
-    quotes,
-    total,
-    pageNum,
-    langNum,
-    isWebpage,
-    setTotal,
-    setPageNum,
-    setLangNum,
-    setIsWebpage,
-  ]);
-
-
+import { fab } from "@fortawesome/free-brands-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 */

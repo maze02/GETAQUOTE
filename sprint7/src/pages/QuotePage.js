@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import classes from "./QuotePage.module.css";
 import FilterPanel from "../components/Quotes/Filter/FilterPanel";
 import FilterFunctionality from "../components/Quotes/Filter/FilterFunctionality";
+import Search from "../components/Quotes/Search/Search";
 
 const QuotePage = ({
   clientName,
@@ -279,8 +280,6 @@ const QuotePage = ({
       case "adsFilter":
         arr = quoteList;
         resArr = arr.filter((a) => a.adsQ === true);
-        console.log("adsFilter clicked");
-        console.log(resArr);
         break;
 
       case "reset":
@@ -297,11 +296,19 @@ const QuotePage = ({
   1. npm i uuid -> in the terminal
   2. import it @ the top:  import { v4 as uuidv4 } from "uuid";
   */
+  const handleSearch = (e) => {
+    setIsFiltered(true);
+    let arr = quoteList;
+    let searchArr = arr.filter((a) => a.surnameQ.startsWith(e.target.value));
+    console.log("I'm typing " + e.target.value);
+    console.log(arr);
+    console.log(searchArr);
+    setFilterList(searchArr);
+  };
 
   const handleShowFilterPanel = () => {
     if (!isFilter) {
       setIsFilter(true);
-      console.log("showing filter panel");
     } else {
       setIsFilter(false);
     }
@@ -333,18 +340,6 @@ const QuotePage = ({
     let totalD = seoD + adsD + (webD + pageD * langD * 30);
 
     setTotal(totalD);
-    /*
-    setQuote([
-      { clientName: clientName },
-      { clientSurname: clientSurname },
-      { isWebpage: isWebpage },
-      { pageNum: pageNum },
-      { langNum: langNum },
-      { isSeo: isSeo },
-      { isAds: isAds },
-      { total: total },
-    ]);
-    */
   }, [isWebpage, isSeo, isAds, total, pageNum, langNum, setTotal, setQuote]);
 
   return (
@@ -411,6 +406,7 @@ const QuotePage = ({
 
       <div>
         <h2>Saved Quotes</h2>
+        {quoteList.length !== 0 && <Search handleSearch={handleSearch} />}
         {quoteList.length !== 0 && filterButtonContent}
         {quoteList.length !== 0 && isFilter && (
           <FilterPanel
