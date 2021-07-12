@@ -1,4 +1,44 @@
-.container{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+.container {
+  display: grid;
+  grid-template-areas: "col1 col2";
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 10%;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.col1 {
+  grid-area: col1;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.col2 {
+  grid-area: col2;
+  box-sizing: border-box;
+}
+
+.control label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.control input,
+.control textarea {
+  font: inherit;
+  padding: 0.35rem;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  border: 1px solid #c1d1d1;
+  display: block;
+  width: 100%;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.control input:focus,
+.control textarea:focus {
+  background-color: #cbf8f8;
+  outline-color: teal;
 }

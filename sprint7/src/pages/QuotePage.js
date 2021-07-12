@@ -1,4 +1,5 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import Modalinfo from "../components/Modal/Modalinfo";
 import Backdrop from "../components/Modal/Backdrop";
 import QuoteWebExtras from "../components/Quotes/QuoteExtraDetails/QuoteWebExtras";
@@ -8,6 +9,8 @@ import classes from "./QuotePage.module.css";
 import FilterPanel from "../components/Quotes/Filter/FilterPanel";
 import FilterFunctionality from "../components/Quotes/Filter/FilterFunctionality";
 import Search from "../components/Quotes/Search/Search";
+import CopyQuoteUrl from "../components/Quotes/CopyQuoteUrl";
+import Card from "../components/UI/Card";
 
 const QuotePage = ({
   clientName,
@@ -39,6 +42,9 @@ const QuotePage = ({
   const [isFilter, setIsFilter] = useState(false);
   const [isFiltered, setIsFiltered] = useState(false);
   const [filterList, setFilterList] = useState(quoteList);
+
+  const searchRef = useRef(null);
+
   const handleIsFilter = () => {
     if (!isFilter) {
       setIsFilter(true);
@@ -46,6 +52,36 @@ const QuotePage = ({
       setIsFilter(false);
     }
   };
+  let urlObj = {};
+  const location = useLocation();
+  console.log(location);
+  const [isParams, setParams] = useState(location.search);
+  const [isUrlData, setIsUrlData] = useState(false);
+  console.log(typeof isParams);
+  useEffect(() => {
+    if (isParams !== "") {
+      setIsUrlData(true);
+      console.log("render new info");
+      const queryParams = new URLSearchParams(location.search);
+      for (const [key, value] of queryParams) {
+        if (urlObj[key] === undefined) {
+          urlObj[key] = value;
+        }
+        setClientName(JSON.parse(urlObj.clientName));
+        setClientSurname(JSON.parse(urlObj.clientSurname));
+        setPageNum(JSON.parse(urlObj.pageNum));
+        setIsAds(JSON.parse(urlObj.isAds));
+        setIsSeo(JSON.parse(urlObj.isSeo));
+        setIsWebpage(JSON.parse(urlObj.isWebpage));
+        setLangNum(Number(urlObj.langNum));
+        setPageNum(Number(urlObj.pageNum));
+      }
+      console.log(urlObj);
+    } else {
+      console.log("don't render new info");
+    }
+  }, [isParams]);
+
   const handlechange = useCallback(
     (e) => {
       console.log("I'm rendering");
@@ -81,16 +117,6 @@ const QuotePage = ({
       if (inputId === "googleAdsCampaign" && !checkedStatus) {
         setIsAds(false);
       }
-      /*
-      setQuote([
-        { clientName: clientName },
-        { clientSurname: clientSurname },
-        { pageNum: pageNum },
-        { langNum: langNum },
-        { total: total },
-        { isWebpage: isWebpage },
-      ]);
-      */
     },
     [
       clientName,
@@ -108,26 +134,7 @@ const QuotePage = ({
       setQuote,
     ]
   );
-  /*
-  useEffect(() => {
-    localStorage.setItem("quotes", JSON.stringify(quotes));
-  }, [
-    initialQuotes,
-    quotes,
-    total,
-    pageNum,
-    langNum,
-    isWebpage,
-    setTotal,
-    setPageNum,
-    setLangNum,
-    setIsWebpage,
-    handlechange,
-    setClientName,
-    setClientSurname,
-    setQuote,
-  ]);
-*/
+
   let contentI = (
     <QuoteWebExtras
       setLangNum={setLangNum}
@@ -285,6 +292,8 @@ const QuotePage = ({
       case "reset":
         arr = quoteList;
         setIsFiltered(false);
+        searchRef.current.value = "";
+
         break;
 
       default:
@@ -315,7 +324,7 @@ const QuotePage = ({
   };
 
   let filterButtonContent = (
-    <button type="button" onClick={handleShowFilterPanel}>
+    <button type="button" className="btn" onClick={handleShowFilterPanel}>
       Filter
     </button>
   );
@@ -344,69 +353,102 @@ const QuotePage = ({
 
   return (
     <div className={classes.container}>
-      <div>
-        <h2>Generate a quote</h2>
-        <h3>What would you like to do?</h3>
-        <form>
-          <p>Client Details</p>
-          <div className="spacer">
-            <label htmlFor="clientName">Name</label>
-            <input type="text" id="clientName" onChange={handlechange} />
-          </div>
-          <div className="spacer">
-            <label htmlFor="clientSurname">Surname</label>
-            <input type="text" id="clientSurname" onChange={handlechange} />
-          </div>
-          <p>Quote Details</p>
-          <div className="spacer">
-            <input
-              type="checkbox"
-              id="webpage"
-              value="500"
-              onChange={handlechange}
-            />
-            <label htmlFor="webPage">A webpage (500 €)</label>
-            <div>{isWebpage && contentI}</div>
-          </div>
-          <div className="spacer">
-            <input
-              type="checkbox"
-              id="Seo"
-              name="seo"
-              value="300"
-              onChange={handlechange}
-            />
-            <label htmlFor="Seo">SEO consultation (300 €)</label>
-          </div>
-          <input
-            type="checkbox"
-            id="googleAdsCampaign"
-            name="googleAdsCampaign"
-            value="200"
-            onChange={handlechange}
-          />
-          <label htmlFor="googleAdsCampaign">Google Ads Campaign (200 €)</label>
-          <br></br>
-          <h2>
-            Total Price:
-            {total}€
-          </h2>
+      <div className={classes.col1}>
+        <div>
+          <h2>Generate a quote</h2>
+          <h3>What would you like to do?</h3>
+        </div>
+        <Card>
+          <form>
+            <h3>Client Details</h3>
+            <div className="spacer" className={classes.control}>
+              <label htmlFor="clientName">Name</label>
+              <input
+                type="text"
+                id="clientName"
+                onChange={handlechange}
+                placeholder={isUrlData && urlObj.clientName}
+              />
+            </div>
+            <div className="spacer" className={classes.control}>
+              <label htmlFor="clientSurname">Surname</label>
+              <input
+                type="text"
+                id="clientSurname"
+                onChange={handlechange}
+                placeholder={isUrlData && urlObj.clientSurname}
+              />
+            </div>
+            <h3>Quote Details</h3>
+            <div className="spacer">
+              <input
+                type="checkbox"
+                id="webpage"
+                value="500"
+                onChange={handlechange}
+              />
+              <label htmlFor="webPage">A webpage (500 €)</label>
+              <div>{isWebpage && contentI}</div>
+            </div>
+            <div className="spacer">
+              <input
+                type="checkbox"
+                id="Seo"
+                name="seo"
+                value="300"
+                onChange={handlechange}
+              />
+              <label htmlFor="Seo">SEO consultation (300 €)</label>
+            </div>
+            <div>
+              <input
+                type="checkbox"
+                id="googleAdsCampaign"
+                name="googleAdsCampaign"
+                value="200"
+                onChange={handlechange}
+              />
+              <label htmlFor="googleAdsCampaign">
+                Google Ads Campaign (200 €)
+              </label>
+            </div>
+            <br></br>
+            <h3>
+              Total Price:
+              {total}€
+            </h3>
+            <div>
+              {modalLangOpen && <Modalinfo id="languages" number={langNum} />}
+              {modalPageOpen && <Modalinfo id="pages" number={pageNum} />}
+              {(modalLangOpen || modalPageOpen) && (
+                <Backdrop onClick={closeModal} />
+              )}
+            </div>
+            <button className="btn" type="button" onClick={handleSubmitForm}>
+              Save Quote
+            </button>
+          </form>
+
           <div>
-            {modalLangOpen && <Modalinfo id="languages" number={langNum} />}
-            {modalPageOpen && <Modalinfo id="pages" number={pageNum} />}
-            {(modalLangOpen || modalPageOpen) && (
-              <Backdrop onClick={closeModal} />
-            )}
+            <CopyQuoteUrl
+              clientName={clientName}
+              clientSurname={clientSurname}
+              pageNum={pageNum}
+              langNum={langNum}
+              isWebpage={isWebpage}
+              isSeo={isSeo}
+              isAds={isAds}
+              total={total}
+            />
           </div>
-          <button type="button" onClick={handleSubmitForm}>
-            Save Quote
-          </button>
-        </form>
+        </Card>
       </div>
 
-      <div>
+      <div className={classes.col2}>
         <h2>Saved Quotes</h2>
-        {quoteList.length !== 0 && <Search handleSearch={handleSearch} />}
+        {quoteList.length !== 0 && (
+          <Search handleSearch={handleSearch} searchRef={searchRef} />
+        )}
         {quoteList.length !== 0 && filterButtonContent}
         {quoteList.length !== 0 && isFilter && (
           <FilterPanel
@@ -461,3 +503,34 @@ const displayQuotes = () => {
   };
 
 */
+/*
+  useEffect(() => {
+    localStorage.setItem("quotes", JSON.stringify(quotes));
+  }, [
+    initialQuotes,
+    quotes,
+    total,
+    pageNum,
+    langNum,
+    isWebpage,
+    setTotal,
+    setPageNum,
+    setLangNum,
+    setIsWebpage,
+    handlechange,
+    setClientName,
+    setClientSurname,
+    setQuote,
+  ]);
+*/
+
+/*
+      setQuote([
+        { clientName: clientName },
+        { clientSurname: clientSurname },
+        { pageNum: pageNum },
+        { langNum: langNum },
+        { total: total },
+        { isWebpage: isWebpage },
+      ]);
+      */

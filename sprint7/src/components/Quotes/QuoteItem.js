@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import classes from "./QuoteItem.module.css";
 const QuoteItem = ({
   id,
   nameQ,
@@ -11,12 +12,23 @@ const QuoteItem = ({
   totalQ,
 }) => {
   return (
-    <div>
+    <div className={classes.item}>
       <ul>
-        <li>Customer Reference Number : {id} </li>
-        <li>Name:{nameQ}</li>
-        <li>Surname:{surnameQ}</li>
-        <li>Quote includes:</li>
+        <li>
+          <span className={classes.thicker}>Customer Reference Number :</span>{" "}
+          {id}{" "}
+        </li>
+        <li>
+          <span className={classes.thicker}>Name:</span>
+          {nameQ}
+        </li>
+        <li>
+          <span className={classes.thicker}>Surname:</span>
+          {surnameQ}
+        </li>
+        <li>
+          <span className={classes.thicker}>Quote includes:</span>
+        </li>
         {webpageQ && (
           <Fragment>
             <li>
@@ -26,9 +38,20 @@ const QuoteItem = ({
             </li>
           </Fragment>
         )}
-        {seoQ && <li>Seo consultation (300 €)</li>}
-        {adsQ && <li>Google Ads (200 €)</li>}
-        <li>Total: {totalQ} €</li>
+        {seoQ && (
+          <li>
+            <span className={classes.thicker}>Seo consultation (300 €)</span>
+          </li>
+        )}
+        {adsQ && (
+          <li>
+            <span className={classes.thicker}>Google Ads (200 €)</span>
+          </li>
+        )}
+        <li>
+          <span className={classes.thicker}>Total: </span>
+          {totalQ} €
+        </li>
       </ul>
     </div>
   );

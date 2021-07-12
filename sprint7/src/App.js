@@ -6,9 +6,9 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 import HomePage from "./pages/HomePage";
 import QuotePage from "./pages/QuotePage";
-import FavoritesPage from "./pages/FavoritesPage";
+import ViewSharedQuotePage from "./pages/ViewSharedQuotePage";
 import MainNavigation from "./components/layout/MainNavigation";
-
+import Layout from "./components/layout/Layout";
 import "./App.css";
 
 //import ModalUI from "./components/ModalUI";
@@ -47,48 +47,52 @@ const App = () => {
   }, [quoteList]);
 
   return (
-    <div className="App">
-      <div>
-        <MainNavigation />
-        <Switch>
-          <Route path="/" exact>
-            <HomePage />
-          </Route>
-          <Route path="/new-quote">
-            <QuotePage
-              quoteList={quoteList}
-              clientName={clientName}
-              clientSurname={clientSurname}
-              pageNum={pageNum}
-              langNum={langNum}
-              total={total}
-              isWebpage={isWebpage}
-              isAds={isAds}
-              isSeo={isSeo}
-              quotes={quotes}
-              initialQuotes={initialQuotes}
-              modalPageOpen={modalPageOpen}
-              modalLangOpen={modalLangOpen}
-              setTotal={setTotal}
-              setQuote={setQuote}
-              setIsWebpage={setIsWebpage}
-              setPageNum={setPageNum}
-              setLangNum={setLangNum}
-              setIsSeo={setIsSeo}
-              setIsAds={setIsAds}
-              setClientName={setClientName}
-              setClientSurname={setClientSurname}
-              setModalPageOpen={setModalPageOpen}
-              setModalLangOpen={setModalLangOpen}
-              setQuoteList={setQuoteList}
-            />
-          </Route>
-          <Route path="/favorites">
-            <FavoritesPage />
-          </Route>
-        </Switch>
-      </div>
-    </div>
+    <Layout>
+      <Switch>
+        <Route path="/" exact>
+          <HomePage />
+        </Route>
+        <Route path="/new-quote">
+          <QuotePage
+            quoteList={quoteList}
+            clientName={clientName}
+            clientSurname={clientSurname}
+            pageNum={pageNum}
+            langNum={langNum}
+            total={total}
+            isWebpage={isWebpage}
+            isAds={isAds}
+            isSeo={isSeo}
+            quotes={quotes}
+            initialQuotes={initialQuotes}
+            modalPageOpen={modalPageOpen}
+            modalLangOpen={modalLangOpen}
+            setTotal={setTotal}
+            setQuote={setQuote}
+            setIsWebpage={setIsWebpage}
+            setPageNum={setPageNum}
+            setLangNum={setLangNum}
+            setIsSeo={setIsSeo}
+            setIsAds={setIsAds}
+            setClientName={setClientName}
+            setClientSurname={setClientSurname}
+            setModalPageOpen={setModalPageOpen}
+            setModalLangOpen={setModalLangOpen}
+            setQuoteList={setQuoteList}
+          />
+        </Route>
+        <Route path="/view-quote">
+          <ViewSharedQuotePage
+            setPageNum={setPageNum}
+            setLangNum={setLangNum}
+            setModalPageOpen={setModalPageOpen}
+            setModalLangOpen={setModalLangOpen}
+            modalPageOpen={modalPageOpen}
+            modalLangOpen={modalLangOpen}
+          />
+        </Route>
+      </Switch>
+    </Layout>
   );
 };
 

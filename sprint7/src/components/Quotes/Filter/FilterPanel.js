@@ -1,4 +1,7 @@
 import { Fragment, useState } from "react";
+import classes from "./FilterPanel.module.css";
+import Card from "../../UI/Card";
+
 import FilterFunctionality from "./FilterFunctionality";
 const FilterPanel = ({
   quoteList,
@@ -90,90 +93,98 @@ const FilterPanel = ({
   //useEffect(handleTotal, [setIsTotalClicked, isTotalClicked]);
   return (
     <Fragment>
-      <button id="reset" type="button" name="filter" onClick={handleFilter}>
+      <button
+        className={`btn ${classes.spacing}`}
+        id="reset"
+        type="button"
+        name="filter"
+        onClick={handleFilter}
+      >
         Reset Filter
       </button>
-      <form>
-        <p>Sort by</p>
-        <hr></hr>
-        <div>
-          <input
-            type="radio"
-            id="alphaSort"
-            name="filter"
-            onChange={handleFilter}
-          />
-          <label htmlFor="alphaSort">
-            Alphabetical order
-            <button type="button" onClick={handleAlphaSort}>
-              +
-            </button>
-          </label>
-          {isAlphaSort && alphaSortContent}
-        </div>
-        <div>
-          <input
-            type="radio"
-            id="totalSort"
-            name="filter"
-            onChange={handleFilter}
-          />
-          <label htmlFor="totalSort">
-            Total
-            <button type="button" onClick={handleTotal}>
-              +
-            </button>
-          </label>
-          {isTotalClicked && totalSortContent}
-        </div>
-        <div>
-          <input
-            type="radio"
-            id="langNumSort"
-            name="filter"
-            onChange={handleFilter}
-          />
-          <label htmlFor="langNumSort">Greatest number of Languages</label>
-        </div>
-        <div>
-          <input
-            type="radio"
-            id="pageNumSort"
-            name="filter"
-            onChange={handleFilter}
-          />
-          <label htmlFor="pageNumSort">Greatest number of Pages</label>
-        </div>
-        <p>Filter quotes which include:</p>
-        <hr></hr>
-        <div>
-          <input
-            type="radio"
-            id="webFilter"
-            name="filter"
-            onChange={handleFilter}
-          />
-          <label htmlFor="webFilter">A webpage</label>
-        </div>
-        <div>
-          <input
-            type="radio"
-            id="seoFilter"
-            name="filter"
-            onChange={handleFilter}
-          />
-          <label htmlFor="seoFilter">SEO consultation</label>
-        </div>
-        <div>
-          <input
-            type="radio"
-            id="adsFilter"
-            name="filter"
-            onChange={handleFilter}
-          />
-          <label htmlFor="adsFilter">Google Ads Campaign</label>
-        </div>
-      </form>
+      <Card>
+        <form>
+          <p>Sort by</p>
+          <hr></hr>
+          <div>
+            <input
+              type="radio"
+              id="alphaSort"
+              name="filter"
+              onChange={handleFilter}
+            />
+            <label htmlFor="alphaSort">
+              Alphabetical order
+              <button type="button" onClick={handleAlphaSort}>
+                +
+              </button>
+            </label>
+            {isAlphaSort && alphaSortContent}
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="totalSort"
+              name="filter"
+              onChange={handleFilter}
+            />
+            <label htmlFor="totalSort">
+              Total
+              <button type="button" onClick={handleTotal}>
+                +
+              </button>
+            </label>
+            {isTotalClicked && totalSortContent}
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="langNumSort"
+              name="filter"
+              onChange={handleFilter}
+            />
+            <label htmlFor="langNumSort">Greatest number of Languages</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="pageNumSort"
+              name="filter"
+              onChange={handleFilter}
+            />
+            <label htmlFor="pageNumSort">Greatest number of Pages</label>
+          </div>
+          <p>Filter quotes which include:</p>
+          <hr></hr>
+          <div>
+            <input
+              type="radio"
+              id="webFilter"
+              name="filter"
+              onChange={handleFilter}
+            />
+            <label htmlFor="webFilter">A webpage</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="seoFilter"
+              name="filter"
+              onChange={handleFilter}
+            />
+            <label htmlFor="seoFilter">SEO consultation</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="adsFilter"
+              name="filter"
+              onChange={handleFilter}
+            />
+            <label htmlFor="adsFilter">Google Ads Campaign</label>
+          </div>
+        </form>
+      </Card>
     </Fragment>
   );
 };
