@@ -40,7 +40,12 @@ const App = () => {
     } else {
       localStorage.setItem("quoteList", JSON.stringify([]));
     }
-  }, [quoteList]);
+  }, [quoteList, initialQuotes]);
+
+  const closeModal = () => {
+    setModalLangOpen(false);
+    setModalPageOpen(false);
+  };
 
   return (
     <Layout>
@@ -87,6 +92,7 @@ const App = () => {
             setModalLangOpen={setModalLangOpen}
             modalPageOpen={modalPageOpen}
             modalLangOpen={modalLangOpen}
+            closeModal={closeModal}
           />
         </Route>
       </Switch>

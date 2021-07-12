@@ -1,6 +1,4 @@
-import { useState } from "react";
-
-const FilterFunctionality = ({ quoteList, filterList, setFilterList }) => {
+const FilterFunctionality = ({ quoteList, setFilterList }) => {
   //alphasort
   let arr = quoteList;
   let resArr = arr.sort(function (a, b) {

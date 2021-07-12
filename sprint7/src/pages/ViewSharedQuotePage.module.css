@@ -6,4 +6,5 @@
 
 .vcontainer {
   width: 40%;
+  min-width: 30rem;
 }

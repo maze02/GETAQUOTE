@@ -21,8 +21,7 @@ const WebExtrasButtons = ({
     } else {
       setLangNum((prev) => prev + 1);
     }
-    /* setQuote([...{ pageNum: pageNum }, { langNum: langNum }]);*/
-  }, [setPageNum, setLangNum, className, pageNum, langNum]);
+  }, [setPageNum, setLangNum, className]);
 
   const decrease = useCallback(() => {
     if (className === "pages") {
@@ -30,8 +29,7 @@ const WebExtrasButtons = ({
     } else {
       setLangNum((prev) => (prev > 1 ? prev - 1 : prev));
     }
-    /*setQuote([...{ pageNum: pageNum }, { langNum: langNum }]);*/
-  }, [setPageNum, setLangNum, className, pageNum, langNum]);
+  }, [setPageNum, setLangNum, className]);
 
   const handleInfo = useCallback(
     (e) => {

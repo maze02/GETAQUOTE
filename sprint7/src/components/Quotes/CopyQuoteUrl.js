@@ -1,5 +1,5 @@
-import { useState, useEffect, Fragment } from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import classes from "./CopyQuoteUrl.module.css";
 
 const CopyQuoteUrl = ({
@@ -12,7 +12,6 @@ const CopyQuoteUrl = ({
   isAds,
   total,
 }) => {
-  const location = useLocation();
   const history = useHistory();
   //location.search returns the query string
   //const queryParams = new URLSearchParams(location.search);
@@ -34,6 +33,8 @@ const CopyQuoteUrl = ({
     setQueryString(urlQuery);
     history.push(`/new-quote?${urlQuery}`);
   }, [
+    history,
+    urlQuery,
     clientName,
     clientSurname,
     isWebpage,
@@ -44,14 +45,6 @@ const CopyQuoteUrl = ({
     total,
   ]);
 
-  /*
-  useEffect(() => {
-    const currParams = new URLSearchParams(location.search);
-    //const clientName = currParams.get("clientName");
-    //const q= params.get("q");
-    //7.01
-  }, []);
-  */
   return (
     <div>
       <h3>Quote Url:</h3>

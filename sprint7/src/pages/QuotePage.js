@@ -37,6 +37,7 @@ const QuotePage = ({
   setQuoteList,
   setFilterList,
   filterList,
+  closeModal,
 }) => {
   const [isFilter, setIsFilter] = useState(false);
   const [isFiltered, setIsFiltered] = useState(false);
@@ -71,7 +72,7 @@ const QuotePage = ({
     } else {
       console.log("don't render new info");
     }
-  }, [isParams]);
+  }, [isParams, location.search, setClientName, setClientSurname]);
 
   const handlechange = useCallback(
     (e) => {
@@ -109,21 +110,7 @@ const QuotePage = ({
         setIsAds(false);
       }
     },
-    [
-      clientName,
-      clientSurname,
-      pageNum,
-      langNum,
-      total,
-      isWebpage,
-      setIsWebpage,
-      setIsSeo,
-      setIsAds,
-      setTotal,
-      setClientName,
-      setClientSurname,
-      setQuote,
-    ]
+    [setIsWebpage, setIsSeo, setIsAds, setClientName, setClientSurname]
   );
 
   let contentI = (
@@ -141,10 +128,6 @@ const QuotePage = ({
       }}
     />
   );
-  const closeModal = () => {
-    setModalLangOpen(false);
-    setModalPageOpen(false);
-  };
 
   const QuoteCreator = (
     cId,
@@ -290,6 +273,8 @@ const QuotePage = ({
           arr = quoteList;
           setIsFiltered(false);
           searchRef.current.value = "";
+          setFilterList(quoteList);
+          setRerender(5);
 
           break;
 
@@ -297,14 +282,7 @@ const QuotePage = ({
           console.log("reached default case");
       }
     },
-    [
-      filterList,
-      quoteList,
-      setFilterList,
-      setIsFiltered,
-      isRerender,
-      setRerender,
-    ]
+    [quoteList, setFilterList, setIsFiltered, setRerender]
   );
   /*creating unique id
   1. npm i uuid -> in the terminal
@@ -372,7 +350,7 @@ const QuotePage = ({
                 type="text"
                 id="clientName"
                 onChange={handlechange}
-                placeholder={isUrlData && urlObj.clientName}
+                placeholder={isUrlData ? urlObj.clientName : undefined}
               />
             </div>
             <div className="spacer" className={classes.control}>
@@ -381,7 +359,7 @@ const QuotePage = ({
                 type="text"
                 id="clientSurname"
                 onChange={handlechange}
-                placeholder={isUrlData && urlObj.clientSurname}
+                placeholder={isUrlData ? urlObj.clientSurname : undefined}
               />
             </div>
             <h3>Quote Details</h3>

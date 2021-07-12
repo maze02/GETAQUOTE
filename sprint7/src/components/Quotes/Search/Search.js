@@ -3,7 +3,7 @@ import classes from "./Search.module.css";
 
 const Search = ({ handleSearch, searchRef }) => {
   return (
-    <div class={classes.searchcontainer}>
+    <div className={classes.searchcontainer}>
       <label htmlFor="search" className={classes.searchicon}>
         <FontAwesomeIcon icon="search" />
       </label>

@@ -14,6 +14,7 @@ const ViewSharedQuotePage = ({
   setModalPageOpen,
   modalLangOpen,
   modalPageOpen,
+  closeModal,
 }) => {
   const location = useLocation();
 
@@ -107,7 +108,17 @@ const ViewSharedQuotePage = ({
               Total Price:
               {urlObj.total}€
             </h3>
-            <div></div>
+            <div>
+              {modalLangOpen && (
+                <Modalinfo id="languages" number={urlObj.langNum} />
+              )}
+              {modalPageOpen && (
+                <Modalinfo id="pages" number={urlObj.pageNum} />
+              )}
+              {(modalLangOpen || modalPageOpen) && (
+                <Backdrop onClick={closeModal} />
+              )}
+            </div>
           </form>
         </Card>
       </div>
