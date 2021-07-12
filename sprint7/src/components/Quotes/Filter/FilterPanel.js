@@ -12,18 +12,6 @@ const FilterPanel = ({
 }) => {
   const [isTotalClicked, setIsTotalClicked] = useState(false);
   const [isAlphaSort, setIsAlphaSort] = useState(false);
-  const [alphaSortC, setAlphaSortC] = useState(false);
-  const [alphaNameC, setAlphaNameC] = useState(false);
-  const [alphaSurnameC, setAlphaSurnameC] = useState(true);
-  const [totalSortC, setTotalSortC] = useState(false);
-  const [totalAscC, setTotalAscC] = useState(false);
-  const [totalDesC, setTotalDesC] = useState(true);
-  const [langDesC, setLangDesC] = useState(false);
-  const [pageDesC, setPageDesC] = useState(false);
-
-  const [webpageC, setWebpageC] = useState(false);
-  const [seoC, setSeoC] = useState(false);
-  const [adsC, setAdsC] = useState(false);
 
   const handleTotal = () => {
     if (isTotalClicked) {

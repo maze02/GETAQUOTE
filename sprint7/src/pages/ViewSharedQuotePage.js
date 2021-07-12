@@ -25,11 +25,7 @@ const ViewSharedQuotePage = ({
     }
   }
   console.log(urlObj);
-  /*
-  let contentI = (
-    <QuoteWebExtras langNum={urlObj.langNum} pageNum={urlObj.pageNum} />
-  );
-*/
+
   /*
   const closeModal = () => {
     setModalLangOpen(false);

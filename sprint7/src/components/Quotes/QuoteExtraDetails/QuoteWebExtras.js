@@ -1,8 +1,6 @@
 import classes from "./QuoteWebExtras.module.css";
 import WebExtrasButtons from "./WebExtrasButtons";
 
-//import App from "../App";
-
 const QuoteWebExtras = ({
   pageNum,
   langNum,

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import QuoteItem from "./QuoteItem";
 
 const QuoteFullList = ({ list }) => {

@@ -1,5 +1,5 @@
 import { Route, Switch } from "react-router-dom";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -7,12 +7,9 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import HomePage from "./pages/HomePage";
 import QuotePage from "./pages/QuotePage";
 import ViewSharedQuotePage from "./pages/ViewSharedQuotePage";
-import MainNavigation from "./components/layout/MainNavigation";
 import Layout from "./components/layout/Layout";
 import "./App.css";
 
-//import ModalUI from "./components/ModalUI";
-//import { classes } from "./App.module.css";
 const App = () => {
   const [clientName, setClientName] = useState();
   const [clientSurname, setClientSurname] = useState();
@@ -42,7 +39,6 @@ const App = () => {
       localStorage.setItem("quoteList", JSON.stringify(quoteList));
     } else {
       localStorage.setItem("quoteList", JSON.stringify([]));
-      // I don't understand this second line of code
     }
   }, [quoteList]);
 

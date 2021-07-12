@@ -20,8 +20,6 @@ const QuotePage = ({
   isWebpage,
   isSeo,
   isAds,
-  quotes,
-  initialQuotes,
   quoteList,
   modalPageOpen,
   modalLangOpen,
@@ -42,18 +40,9 @@ const QuotePage = ({
 }) => {
   const [isFilter, setIsFilter] = useState(false);
   const [isFiltered, setIsFiltered] = useState(false);
-  const [isRerender, setRerender] = useState(0);
-
-  // const [triggerRender, setTriggerRender] = useState(null); useCallback for rerender of changed states
+  const [isRerender, setRerender] = useState(0); //to trigger render when it's not rendering
   const searchRef = useRef(null);
 
-  const handleIsFilter = () => {
-    if (!isFilter) {
-      setIsFilter(true);
-    } else {
-      setIsFilter(false);
-    }
-  };
   let urlObj = {};
   const location = useLocation();
   console.log(location);
@@ -485,68 +474,3 @@ const QuotePage = ({
 };
 
 export default QuotePage;
-/*
-  {quoteList > 0 && <savedQuoteCard list={quoteList} />}
-const displayQuotes = () => {
-    if (quoteList.length === null) {
-      return <p>No quotes added yet</p>;
-    } else {
-      return 
-      });
-    }
-  };
-*/
-/*Before with nothing
-const displayQuotes = () => {
-    if (quoteList.length === null) {
-      return <p>No quotes added yet</p>;
-    } else {
-      return quoteList.map((quote) => {
-        return (
-          <savedQuoteCard
-            id={quote.id}
-            nameQ={quote.nameQ}
-            surnameQ={quote.surnameQ}
-            langNumQ={quote.langNumQ}
-            pageNumQ={quote.pageNumQ}
-            seoQ={quote.seoQ}
-            adsQ={quote.adsQ}
-            totalQ={quote.totalQ}
-          />
-        );
-      });
-    }
-  };
-
-*/
-/*
-  useEffect(() => {
-    localStorage.setItem("quotes", JSON.stringify(quotes));
-  }, [
-    initialQuotes,
-    quotes,
-    total,
-    pageNum,
-    langNum,
-    isWebpage,
-    setTotal,
-    setPageNum,
-    setLangNum,
-    setIsWebpage,
-    handlechange,
-    setClientName,
-    setClientSurname,
-    setQuote,
-  ]);
-*/
-
-/*
-      setQuote([
-        { clientName: clientName },
-        { clientSurname: clientSurname },
-        { pageNum: pageNum },
-        { langNum: langNum },
-        { total: total },
-        { isWebpage: isWebpage },
-      ]);
-      */
