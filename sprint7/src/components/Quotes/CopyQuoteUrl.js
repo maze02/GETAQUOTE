@@ -55,7 +55,7 @@ const CopyQuoteUrl = ({
   return (
     <div>
       <h3>Quote Url:</h3>
-      <p className={classes.quote}>{`/new-quote?${queryString}`} </p>
+      <p className={classes.quote}>{`/view-quote?${queryString}`} </p>
     </div>
   );
 };

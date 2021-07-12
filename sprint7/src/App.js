@@ -36,7 +36,7 @@ const App = () => {
   //whatever is in the array, will be what is in the local storage
   const [quoteList, setQuoteList] = useState(initialQuotes);
   const [quotes, setQuote] = useState(initialQuotes);
-
+  const [filterList, setFilterList] = useState(quoteList);
   useEffect(() => {
     if (initialQuotes) {
       localStorage.setItem("quoteList", JSON.stringify(quoteList));
@@ -79,6 +79,8 @@ const App = () => {
             setModalPageOpen={setModalPageOpen}
             setModalLangOpen={setModalLangOpen}
             setQuoteList={setQuoteList}
+            filterList={filterList}
+            setFilterList={setFilterList}
           />
         </Route>
         <Route path="/view-quote">

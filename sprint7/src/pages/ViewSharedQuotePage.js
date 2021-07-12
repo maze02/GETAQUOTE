@@ -4,6 +4,8 @@ import Backdrop from "../components/Modal/Backdrop";
 import QuoteWebExtras from "../components/Quotes/QuoteExtraDetails/QuoteWebExtras";
 import classes from "./QuotePage.module.css";
 import { faUmbrella } from "@fortawesome/free-solid-svg-icons";
+import Card from "../components/UI/Card";
+import vclasses from "./ViewSharedQuotePage.module.css";
 
 const ViewSharedQuotePage = ({
   setLangNum,
@@ -55,59 +57,63 @@ const ViewSharedQuotePage = ({
     />
   );
   return (
-    <div>
+    <div className={vclasses.vlayout}>
       <h2>View Quote</h2>
-      <div>
-        <form>
-          <p>Client Details</p>
-          <div className="spacer">
-            <label htmlFor="clientName">Name</label>
-            <input type="text" id="clientName" value={urlObj.clientName} />
-          </div>
-          <div className="spacer">
-            <label htmlFor="clientSurname">Surname</label>
-            <input
-              type="text"
-              id="clientSurname"
-              value={urlObj.clientSurname}
-            />
-          </div>
-          <p>Quote Details</p>
-          <div className="spacer">
+      <div className={vclasses.vcontainer}>
+        <Card>
+          <form>
+            <h3>Client Details</h3>
+            <div className="spacer" className={classes.control}>
+              <label htmlFor="clientName">Name</label>
+              <input type="text" id="clientName" value={urlObj.clientName} />
+            </div>
+            <div className="spacer" className={classes.control}>
+              <label htmlFor="clientSurname">Surname</label>
+              <input
+                type="text"
+                id="clientSurname"
+                value={urlObj.clientSurname}
+              />
+            </div>
+            <h3>Quote Details</h3>
+            <div className="spacer">
+              <input
+                type="checkbox"
+                id="webpage"
+                value="500"
+                checked={JSON.parse(urlObj.isWebpage) ? "true" : ""}
+              />
+              <label htmlFor="webPage">A webpage (500 €)</label>
+              <div>{JSON.parse(urlObj.isWebpage) && contentI}</div>
+            </div>
+            <div className="spacer">
+              <input
+                type="checkbox"
+                id="Seo"
+                name="seo"
+                value="300"
+                checked={JSON.parse(urlObj.isSeo) ? "true" : ""}
+              />
+              <label htmlFor="Seo">SEO consultation (300 €)</label>
+            </div>
             <input
               type="checkbox"
-              id="webpage"
-              value="500"
-              checked={JSON.parse(urlObj.isWebpage) ? "true" : ""}
+              id="googleAdsCampaign"
+              name="googleAdsCampaign"
+              value="200"
+              checked={JSON.parse(urlObj.isAds) ? "true" : ""}
             />
-            <label htmlFor="webPage">A webpage (500 €)</label>
-            <div>{JSON.parse(urlObj.isWebpage) && contentI}</div>
-          </div>
-          <div className="spacer">
-            <input
-              type="checkbox"
-              id="Seo"
-              name="seo"
-              value="300"
-              checked={JSON.parse(urlObj.isSeo) ? "true" : ""}
-            />
-            <label htmlFor="Seo">SEO consultation (300 €)</label>
-          </div>
-          <input
-            type="checkbox"
-            id="googleAdsCampaign"
-            name="googleAdsCampaign"
-            value="200"
-            checked={JSON.parse(urlObj.isAds) ? "true" : ""}
-          />
-          <label htmlFor="googleAdsCampaign">Google Ads Campaign (200 €)</label>
-          <br></br>
-          <h2>
-            Total Price:
-            {urlObj.total}€
-          </h2>
-          <div></div>
-        </form>
+            <label htmlFor="googleAdsCampaign">
+              Google Ads Campaign (200 €)
+            </label>
+            <br></br>
+            <h3>
+              Total Price:
+              {urlObj.total}€
+            </h3>
+            <div></div>
+          </form>
+        </Card>
       </div>
     </div>
   );

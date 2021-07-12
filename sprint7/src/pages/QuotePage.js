@@ -7,7 +7,6 @@ import QuoteFullList from "../components/Quotes/QuoteFullList";
 import { v4 as uuidv4 } from "uuid";
 import classes from "./QuotePage.module.css";
 import FilterPanel from "../components/Quotes/Filter/FilterPanel";
-import FilterFunctionality from "../components/Quotes/Filter/FilterFunctionality";
 import Search from "../components/Quotes/Search/Search";
 import CopyQuoteUrl from "../components/Quotes/CopyQuoteUrl";
 import Card from "../components/UI/Card";
@@ -38,11 +37,14 @@ const QuotePage = ({
   setPageNum,
   setLangNum,
   setQuoteList,
+  setFilterList,
+  filterList,
 }) => {
   const [isFilter, setIsFilter] = useState(false);
   const [isFiltered, setIsFiltered] = useState(false);
-  const [filterList, setFilterList] = useState(quoteList);
+  const [isRerender, setRerender] = useState(0);
 
+  // const [triggerRender, setTriggerRender] = useState(null); useCallback for rerender of changed states
   const searchRef = useRef(null);
 
   const handleIsFilter = () => {
@@ -219,88 +221,102 @@ const QuotePage = ({
     setIsFiltered(false);
   };
 
-  const handleFilter = (e) => {
-    setIsFiltered(true);
-    let inputId = e.target.id;
-    console.log("id is " + inputId);
+  const handleFilter = useCallback(
+    (e) => {
+      setIsFiltered(true);
+      let inputId = e.target.id;
+      let arr = [];
+      let resArr = [];
 
-    let arr = [];
-    let resArr = [];
+      switch (inputId) {
+        case "alphaSort":
+          //alpha sort by surname
+          //-------------------------
+          arr = quoteList;
+          let alphaSort = arr.sort(function (a, b) {
+            let nameA = a.surnameQ.toUpperCase(); // ignore upper and lowercase
+            let nameB = b.surnameQ.toUpperCase(); // ignore upper and lowercase
+            if (nameA < nameB) {
+              return -1;
+            }
+            if (nameA > nameB) {
+              return 1;
+            }
+            // names must be equal
+            return 0;
+          });
+          setFilterList(alphaSort);
+          setRerender(1);
+          break;
 
-    switch (inputId) {
-      case "alphaSort":
-        //alpha sort by surname
-        //-------------------------
-        arr = quoteList;
-        resArr = arr.sort(function (a, b) {
-          let nameA = a.surnameQ.toUpperCase(); // ignore upper and lowercase
-          let nameB = b.surnameQ.toUpperCase(); // ignore upper and lowercase
-          if (nameA < nameB) {
-            return -1;
-          }
-          if (nameA > nameB) {
-            return 1;
-          }
-          // names must be equal
-          return 0;
-        });
-
-        break;
-
-      case "totalSort":
-        //sort by total descending
-        //-------------------------
-        arr = quoteList;
-        resArr = arr.sort(function (a, b) {
-          return b.totalQ - a.totalQ;
-        });
-
-        break;
-      //sort by pageNum descending
-      //-----------------------------
-      case "pageNumSort":
-        arr = quoteList;
-        resArr = arr.sort(function (a, b) {
-          return b.pageNumQ - a.pageNumQ;
-        });
-
-        break;
-      case "langNumSort":
-        arr = quoteList;
-        //sort by langNum descending
+        case "totalSort":
+          //sort by total descending
+          //-------------------------
+          arr = quoteList;
+          let totalSort = arr.sort(function (a, b) {
+            return b.totalQ - a.totalQ;
+          });
+          setFilterList(totalSort);
+          setRerender(2);
+          break;
+        //sort by pageNum descending
         //-----------------------------
-        resArr = arr.sort(function (a, b) {
-          return b.langNumQ - a.langNumQ;
-        });
+        case "pageNumSort":
+          arr = quoteList;
+          let numSort = arr.sort(function (a, b) {
+            return b.pageNumQ - a.pageNumQ;
+          });
+          setFilterList(numSort);
+          setRerender(3);
+          break;
+        case "langNumSort":
+          arr = quoteList;
+          //sort by langNum descending
+          //-----------------------------
+          resArr = arr.sort(function (a, b) {
+            return b.langNumQ - a.langNumQ;
+          });
+          setFilterList(resArr);
+          setRerender(4);
+          break;
 
-        break;
+        case "webFilter":
+          arr = quoteList;
+          resArr = arr.filter((a) => a.webpageQ === true);
+          setFilterList(resArr);
+          break;
 
-      case "webFilter":
-        arr = quoteList;
-        resArr = arr.filter((a) => a.webpageQ === true);
-        break;
+        case "seoFilter":
+          arr = quoteList;
+          resArr = arr.filter((a) => a.seoQ === true);
+          setFilterList(resArr);
+          break;
+        case "adsFilter":
+          arr = quoteList;
+          resArr = arr.filter((a) => a.adsQ === true);
+          setFilterList(resArr);
+          break;
 
-      case "seoFilter":
-        arr = quoteList;
-        resArr = arr.filter((a) => a.seoQ === true);
-        break;
-      case "adsFilter":
-        arr = quoteList;
-        resArr = arr.filter((a) => a.adsQ === true);
-        break;
+        case "reset":
+          arr = quoteList;
+          setIsFiltered(false);
+          searchRef.current.value = "";
 
-      case "reset":
-        arr = quoteList;
-        setIsFiltered(false);
-        searchRef.current.value = "";
+          break;
 
-        break;
-
-      default:
-        console.log("reached default case");
-    }
-    setFilterList(resArr);
-  };
+        default:
+          console.log("reached default case");
+      }
+    },
+    [
+      filterList,
+      quoteList,
+      setFilterList,
+      setIsFiltered,
+      isRerender,
+      setRerender,
+    ]
+  );
   /*creating unique id
   1. npm i uuid -> in the terminal
   2. import it @ the top:  import { v4 as uuidv4 } from "uuid";
