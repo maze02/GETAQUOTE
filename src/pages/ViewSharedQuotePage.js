@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import Modalinfo from "../components/Modal/Modalinfo";
 import Backdrop from "../components/Modal/Backdrop";
@@ -16,27 +17,33 @@ const ViewSharedQuotePage = ({
   modalPageOpen,
   closeModal,
 }) => {
+  //const [isView, setIsView] = useState(false);
   const location = useLocation();
-
   const queryParams = new URLSearchParams(location.search);
-  let urlObj = {};
-  for (const [key, value] of queryParams) {
-    if (urlObj[key] === undefined) {
-      urlObj[key] = value;
-    }
-  }
-  console.log(urlObj);
-
-  /*
-  const closeModal = () => {
-    setModalLangOpen(false);
-    setModalPageOpen(false);
-  };
-
-*/
   const setQuote = () => {
     console.log("viewing quote, not setting it.");
   };
+  //console.log("this is locationserach" + location.search);
+  let urlObj = {};
+  if (queryParams.toString() === "") {
+    //setIsView(false);
+    urlObj = {
+      clientName: "",
+      clientSurname: "",
+      isWebpage: "false",
+      isSeo: "false",
+      isAds: "false",
+      total: 0,
+    };
+  } else {
+    // setIsView(true);
+    for (const [key, value] of queryParams) {
+      if (urlObj[key] === undefined) {
+        urlObj[key] = value;
+      }
+    }
+    console.log(urlObj);
+  }
 
   let contentI = (
     <QuoteWebExtras

@@ -7,6 +7,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import HomePage from "./pages/HomePage";
 import QuotePage from "./pages/QuotePage";
 import ViewSharedQuotePage from "./pages/ViewSharedQuotePage";
+import NotFound from "./pages/NotFound";
 import Layout from "./components/layout/Layout";
 import "./App.css";
 
@@ -94,6 +95,9 @@ const App = () => {
             modalLangOpen={modalLangOpen}
             closeModal={closeModal}
           />
+        </Route>
+        <Route path="*">
+          <NotFound />
         </Route>
       </Switch>
     </Layout>
