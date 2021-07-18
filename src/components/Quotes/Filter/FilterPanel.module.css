@@ -1,3 +1,14 @@
 .spacing {
   margin-left: 20px;
 }
+
+.closeBtn {
+  width: 3%;
+  height: auto;
+  float: right;
+  transition: transform 0.2s;
+}
+
+.closeBtn:hover {
+  transform: scale(1.2);
+}

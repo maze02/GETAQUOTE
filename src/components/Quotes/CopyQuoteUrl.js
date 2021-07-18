@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import classes from "./CopyQuoteUrl.module.css";
 
 const CopyQuoteUrl = ({
@@ -12,9 +11,6 @@ const CopyQuoteUrl = ({
   isAds,
   total,
 }) => {
-  const history = useHistory();
-  //location.search returns the query string
-  //const queryParams = new URLSearchParams(location.search);
   const [queryString, setQueryString] = useState("");
   const queryParams = new URLSearchParams({
     clientName: clientName,
@@ -31,9 +27,7 @@ const CopyQuoteUrl = ({
 
   useEffect(() => {
     setQueryString(urlQuery);
-    history.push(`/new-quote?${urlQuery}`);
   }, [
-    history,
     urlQuery,
     clientName,
     clientSurname,
@@ -47,33 +41,13 @@ const CopyQuoteUrl = ({
 
   return (
     <div>
-      <h3>Quote Url:</h3>
+      <h3>Shareable Quote Url:</h3>
       <p className={classes.quote}>{`/view-quote?${queryString}`} </p>
     </div>
   );
 };
 
 export default CopyQuoteUrl;
-/*
 
-  Quote Url: `www.penguin.com/yoyeah+urerwer` pathname:{" "}
-        {location.pathname}
-        search: {location.search}
-
-results in this error
-        index.js:1 Warning: Cannot update during an existing state transition (such as within `render`). Render methods should be a pure function of props and state.
-
-
-          /*
-  if (!clientName) {
-    queryParams.set(`clientName`, `${clientName}`);
-  }
-  */
-// queryParams.set("clientName", "penguin");
-/*
-  history.push({
-    pathname: location.pathname,
-    search: queryParams.search,
-  });
-*/
-//console.log(location);
+//location.search returns the query string
+//const queryParams = new URLSearchParams(location.search);

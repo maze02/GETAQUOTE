@@ -1,13 +1,20 @@
 import { Fragment } from "react";
 import classes from "./FilterPanel.module.css";
+import closeSvg from "../../../images/cancel.svg";
 import Card from "../../UI/Card";
 
-const FilterPanel = ({ handleFilter }) => {
+const FilterPanel = ({ handleFilter, handleShowFilterPanel }) => {
   return (
     <Fragment>
       <Card>
+        <img
+          className={classes.closeBtn}
+          src={closeSvg}
+          onClick={handleShowFilterPanel}
+        />
+
         <form>
-          <h2>Filter and Sort Results</h2>
+          <h3>Filter and Sort Results</h3>
           <p>Sort by</p>
           <hr></hr>
           <div>
@@ -88,7 +95,14 @@ const FilterPanel = ({ handleFilter }) => {
             <label htmlFor="resetter">Reset Filter</label>
           </div>
         </form>
-        <button
+      </Card>
+    </Fragment>
+  );
+};
+
+export default FilterPanel;
+
+/*<button
           className={`btn ${classes.spacing}`}
           id="reset"
           type="button"
@@ -97,9 +111,5 @@ const FilterPanel = ({ handleFilter }) => {
         >
           Reset Filter
         </button>
-      </Card>
-    </Fragment>
-  );
-};
 
-export default FilterPanel;
+*/

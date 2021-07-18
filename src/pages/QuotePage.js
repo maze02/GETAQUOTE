@@ -1,5 +1,4 @@
 import { useState, useCallback, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
 import Modalinfo from "../components/Modal/Modalinfo";
 import Backdrop from "../components/Modal/Backdrop";
 import QuoteWebExtras from "../components/Quotes/QuoteExtraDetails/QuoteWebExtras";
@@ -43,36 +42,6 @@ const QuotePage = ({
   const [isFiltered, setIsFiltered] = useState(false);
   const [isRerender, setRerender] = useState(0); //to trigger render when it's not rendering
   const searchRef = useRef(null);
-
-  let urlObj = {};
-  const location = useLocation();
-  console.log(location);
-  const [isParams, setParams] = useState(location.search);
-  const [isUrlData, setIsUrlData] = useState(false);
-  console.log(typeof isParams);
-
-  useEffect(() => {
-    if (isParams !== "") {
-      setIsUrlData(true);
-      const queryParams = new URLSearchParams(location.search);
-      for (const [key, value] of queryParams) {
-        if (urlObj[key] === undefined) {
-          urlObj[key] = value;
-        }
-        setClientName(JSON.parse(urlObj.clientName));
-        setClientSurname(JSON.parse(urlObj.clientSurname));
-        setPageNum(JSON.parse(urlObj.pageNum));
-        setIsAds(JSON.parse(urlObj.isAds));
-        setIsSeo(JSON.parse(urlObj.isSeo));
-        setIsWebpage(JSON.parse(urlObj.isWebpage));
-        setLangNum(Number(urlObj.langNum));
-        setPageNum(Number(urlObj.pageNum));
-      }
-      console.log(urlObj);
-    } else {
-      console.log("don't render new info");
-    }
-  }, [isParams, location.search, setClientName, setClientSurname]);
 
   const handlechange = useCallback(
     (e) => {
@@ -316,7 +285,7 @@ const QuotePage = ({
 
   let filterButtonContent = (
     <button type="button" className="btn" onClick={handleShowFilterPanel}>
-      Filter
+      Filter Options
     </button>
   );
 
@@ -354,21 +323,11 @@ const QuotePage = ({
             <h3>Client Details</h3>
             <div className="spacer" className={classes.control}>
               <label htmlFor="clientName">Name</label>
-              <input
-                type="text"
-                id="clientName"
-                onChange={handlechange}
-                placeholder={isUrlData ? urlObj.clientName : undefined}
-              />
+              <input type="text" id="clientName" onChange={handlechange} />
             </div>
             <div className="spacer" className={classes.control}>
               <label htmlFor="clientSurname">Surname</label>
-              <input
-                type="text"
-                id="clientSurname"
-                onChange={handlechange}
-                placeholder={isUrlData ? urlObj.clientSurname : undefined}
-              />
+              <input type="text" id="clientSurname" onChange={handlechange} />
             </div>
             <h3>Quote Details</h3>
             <div className="spacer">
@@ -440,13 +399,14 @@ const QuotePage = ({
         {quoteList.length !== 0 && (
           <Search handleSearch={handleSearch} searchRef={searchRef} />
         )}
-        {quoteList.length !== 0 && filterButtonContent}
+        {quoteList.length !== 0 && !isFilter && filterButtonContent}
         {quoteList.length !== 0 && isFilter && (
           <FilterPanel
             quoteList={quoteList}
             handleFilter={handleFilter}
             setIsFiltered={setIsFiltered}
             resetFilterHandler={resetFilterHandler}
+            handleShowFilterPanel={handleShowFilterPanel}
           />
         )}
         {quoteList.length === 0 && <p>No quotes added yet</p>}
@@ -460,3 +420,37 @@ const QuotePage = ({
 };
 
 export default QuotePage;
+
+//import { useLocation } from "react-router-dom";
+
+//let urlObj = {};
+//const location = useLocation();
+//console.log(location);
+//const [isParams, setParams] = useState(location.search);
+//const [isUrlData, setIsUrlData] = useState(false);
+//console.log(typeof isParams);
+
+/*
+  useEffect(() => {
+    if (isParams !== "") {
+      setIsUrlData(true);
+      const queryParams = new URLSearchParams(location.search);
+      for (const [key, value] of queryParams) {
+        if (urlObj[key] === undefined) {
+          urlObj[key] = value;
+        }
+        setClientName(JSON.parse(urlObj.clientName));
+        setClientSurname(JSON.parse(urlObj.clientSurname));
+        setPageNum(JSON.parse(urlObj.pageNum));
+        setIsAds(JSON.parse(urlObj.isAds));
+        setIsSeo(JSON.parse(urlObj.isSeo));
+        setIsWebpage(JSON.parse(urlObj.isWebpage));
+        setLangNum(Number(urlObj.langNum));
+        setPageNum(Number(urlObj.pageNum));
+      }
+      console.log(urlObj);
+    } else {
+      console.log("don't render new info");
+    }
+  }, [isParams, location.search, setClientName, setClientSurname]);
+*/
