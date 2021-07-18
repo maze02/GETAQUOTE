@@ -1,10 +1,8 @@
-import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import Modalinfo from "../components/Modal/Modalinfo";
 import Backdrop from "../components/Modal/Backdrop";
 import QuoteWebExtras from "../components/Quotes/QuoteExtraDetails/QuoteWebExtras";
 import classes from "./QuotePage.module.css";
-import { faUmbrella } from "@fortawesome/free-solid-svg-icons";
 import Card from "../components/UI/Card";
 import vclasses from "./ViewSharedQuotePage.module.css";
 

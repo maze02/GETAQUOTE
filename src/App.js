@@ -34,14 +34,16 @@ const App = () => {
   //whatever is in the array, will be what is in the local storage
   const [quoteList, setQuoteList] = useState(initialQuotes);
   const [quotes, setQuote] = useState(initialQuotes);
-  const [filterList, setFilterList] = useState(quoteList);
+  const [filterList, setFilterList] = useState();
+
   useEffect(() => {
     if (initialQuotes) {
+      console.log("hey I'm resetting the local storage list");
       localStorage.setItem("quoteList", JSON.stringify(quoteList));
     } else {
       localStorage.setItem("quoteList", JSON.stringify([]));
     }
-  }, [quoteList, initialQuotes]);
+  }, [quoteList]);
 
   const closeModal = () => {
     setModalLangOpen(false);

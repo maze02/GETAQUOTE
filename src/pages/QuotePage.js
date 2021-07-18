@@ -50,10 +50,10 @@ const QuotePage = ({
   const [isParams, setParams] = useState(location.search);
   const [isUrlData, setIsUrlData] = useState(false);
   console.log(typeof isParams);
+
   useEffect(() => {
     if (isParams !== "") {
       setIsUrlData(true);
-      console.log("render new info");
       const queryParams = new URLSearchParams(location.search);
       for (const [key, value] of queryParams) {
         if (urlObj[key] === undefined) {
@@ -156,8 +156,8 @@ const QuotePage = ({
   const handleSubmitForm = useCallback(
     (e) => {
       e.preventDefault();
-      const addToQuoteList = (quote) => {
-        setQuoteList([...quoteList, quote]);
+      const addToQuoteList = (quoteP) => {
+        setQuoteList([...quoteList, quoteP]);
       };
 
       let id = uuidv4();
@@ -204,7 +204,7 @@ const QuotePage = ({
         case "alphaSort":
           //alpha sort by surname
           //-------------------------
-          arr = quoteList;
+          arr = [...quoteList];
           let alphaSort = arr.sort(function (a, b) {
             let nameA = a.surnameQ.toUpperCase(); // ignore upper and lowercase
             let nameB = b.surnameQ.toUpperCase(); // ignore upper and lowercase
@@ -224,7 +224,7 @@ const QuotePage = ({
         case "totalSort":
           //sort by total descending
           //-------------------------
-          arr = quoteList;
+          arr = [...quoteList];
           let totalSort = arr.sort(function (a, b) {
             return b.totalQ - a.totalQ;
           });
@@ -234,7 +234,7 @@ const QuotePage = ({
         //sort by pageNum descending
         //-----------------------------
         case "pageNumSort":
-          arr = quoteList;
+          arr = [...quoteList];
           let numSort = arr.sort(function (a, b) {
             return b.pageNumQ - a.pageNumQ;
           });
@@ -242,7 +242,7 @@ const QuotePage = ({
           setRerender(3);
           break;
         case "langNumSort":
-          arr = quoteList;
+          arr = [...quoteList];
           //sort by langNum descending
           //-----------------------------
           resArr = arr.sort(function (a, b) {
@@ -253,27 +253,38 @@ const QuotePage = ({
           break;
 
         case "webFilter":
-          arr = quoteList;
+          arr = [...quoteList];
           resArr = arr.filter((a) => a.webpageQ === true);
           setFilterList(resArr);
           break;
 
         case "seoFilter":
-          arr = quoteList;
+          arr = [...quoteList];
           resArr = arr.filter((a) => a.seoQ === true);
           setFilterList(resArr);
           break;
         case "adsFilter":
-          arr = quoteList;
+          arr = [...quoteList];
           resArr = arr.filter((a) => a.adsQ === true);
           setFilterList(resArr);
           break;
 
-        case "reset":
-          arr = quoteList;
+        case "resetter":
+          arr = [...quoteList];
+          setFilterList(arr);
+
           setIsFiltered(false);
+          console.log("I'm trying to reset the filter");
+          setRerender(6);
+
+          break;
+        case "reset":
           searchRef.current.value = "";
-          setFilterList(quoteList);
+          arr = [...quoteList];
+          setFilterList(arr);
+
+          setIsFiltered(false);
+          console.log("I'm trying to reset the filter");
           setRerender(5);
 
           break;
@@ -282,7 +293,7 @@ const QuotePage = ({
           console.log("reached default case");
       }
     },
-    [quoteList, setFilterList, setIsFiltered, setRerender]
+    [quoteList, isFiltered]
   );
   /*creating unique id
   1. npm i uuid -> in the terminal
@@ -292,9 +303,6 @@ const QuotePage = ({
     setIsFiltered(true);
     let arr = quoteList;
     let searchArr = arr.filter((a) => a.surnameQ.startsWith(e.target.value));
-    console.log("I'm typing " + e.target.value);
-    console.log(arr);
-    console.log(searchArr);
     setFilterList(searchArr);
   };
 
