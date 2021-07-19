@@ -1,0 +1,25 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-content: center;
+}
+
+.button {
+  width: 2rem;
+  height: 2rem;
+  background-color: orange;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  justify-self: center;
+}
+
+.counter {
+  justify-self: center;
+  align-self: center;
+}
+
+.info {
+  width: 60%;
+  height: auto;
+}

@@ -1,0 +1,7 @@
+.quote {
+  display: block;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  width: 300px;
+}
