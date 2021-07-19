@@ -425,6 +425,8 @@ const QuotePage = ({
 
 export default QuotePage;
 
+//Below generated bugs
+
 //import { useLocation } from "react-router-dom";
 
 //let urlObj = {};

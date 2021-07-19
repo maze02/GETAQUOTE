@@ -123,4 +123,7 @@ export default App;
 /*
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+
+//5. CHECK ALL PROPS HAVE BEEN ADDED!!!! CREATES AWFUL BUGS IF NOT
+i.e. forgot close modal as a prop and it wasn't closing
 */

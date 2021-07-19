@@ -12,7 +12,7 @@ const Search = ({ handleSearch, searchRef }) => {
         className={classes.searchinput}
         type="text"
         id="search"
-        placeholder="type client's surname"
+        placeholder="search by surname"
         onKeyUp={handleSearch}
       ></input>
     </div>
