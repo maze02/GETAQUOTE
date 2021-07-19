@@ -1,5 +1,6 @@
 import classes from "./QuoteWebExtras.module.css";
 import WebExtrasButtons from "./WebExtrasButtons";
+import { Panel } from "./QuoteWebExtrasStyled";
 
 const QuoteWebExtras = ({
   pageNum,
@@ -10,7 +11,7 @@ const QuoteWebExtras = ({
   modalPackage,
 }) => {
   return (
-    <div className={classes.card}>
+    <Panel>
       <label>Number of pages</label>
       <WebExtrasButtons
         className="pages"
@@ -30,8 +31,10 @@ const QuoteWebExtras = ({
         modalPackage={modalPackage}
         id="languages"
       />
-    </div>
+    </Panel>
   );
 };
 
 export default QuoteWebExtras;
+
+//className={classes.card}
