@@ -1,0 +1,10 @@
+.vlayout {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.vcontainer {
+  width: 40%;
+  min-width: 30rem;
+}
