@@ -10,6 +10,7 @@ const WebExtrasButtons = ({
   modalPackage,
   id,
 }) => {
+  const { pageNum, langNum } = counter;
   const { setModalLangOpen, setModalPageOpen, modalLangOpen, modalPageOpen } =
     modalPackage;
 

@@ -22,6 +22,7 @@ const QuotePage = ({
   quoteList,
   modalPageOpen,
   modalLangOpen,
+  closeModal,
   setClientName,
   setClientSurname,
   setTotal,
@@ -36,8 +37,10 @@ const QuotePage = ({
   setQuoteList,
   setFilterList,
   filterList,
-  closeModal,
 }) => {
+  const respond = () => {
+    console.log("Hey I'm clicking you");
+  };
   const [isFilter, setIsFilter] = useState(false);
   const [isFiltered, setIsFiltered] = useState(false);
   const [isRerender, setRerender] = useState(0); //to trigger render when it's not rendering
@@ -367,6 +370,10 @@ const QuotePage = ({
               Total Price:
               {total}€
             </h3>
+
+            <button className="btn" type="button" onClick={handleSubmitForm}>
+              Save Quote
+            </button>
             <div>
               {modalLangOpen && <Modalinfo id="languages" number={langNum} />}
               {modalPageOpen && <Modalinfo id="pages" number={pageNum} />}
@@ -374,9 +381,6 @@ const QuotePage = ({
                 <Backdrop onClick={closeModal} />
               )}
             </div>
-            <button className="btn" type="button" onClick={handleSubmitForm}>
-              Save Quote
-            </button>
           </form>
 
           <div>

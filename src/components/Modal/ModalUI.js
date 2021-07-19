@@ -1,4 +1,4 @@
-import { classes } from "./ModalUI.modules.css";
+import { classes } from "./ModalUI.module.css";
 
 const ModalUI = (props) => {
   return (

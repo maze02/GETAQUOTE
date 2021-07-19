@@ -1,6 +1,6 @@
 import classes from "./ModalUI.module.css";
 
-const Modalinfo = ({ id, number }) => {
+const Modalinfo = ({ id, number, onClick }) => {
   if (id === "languages") {
     return (
       <div className={classes.modalContainer}>

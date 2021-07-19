@@ -23,6 +23,11 @@ const App = () => {
   const [modalLangOpen, setModalLangOpen] = useState(false);
   const [total, setTotal] = useState(0);
 
+  const closeModal = (e) => {
+    setModalLangOpen(false);
+    setModalPageOpen(false);
+    console.log("I'm clicking on " + e.target);
+  };
   library.add(fab, faSearch);
   //local storage can only store strings :: use JSON.parse
   //1. check if there are quotes stored in local storage first
@@ -45,11 +50,6 @@ const App = () => {
     }
   }, [quoteList]);
 
-  const closeModal = () => {
-    setModalLangOpen(false);
-    setModalPageOpen(false);
-  };
-
   return (
     <Layout>
       <Switch>
@@ -71,6 +71,7 @@ const App = () => {
             initialQuotes={initialQuotes}
             modalPageOpen={modalPageOpen}
             modalLangOpen={modalLangOpen}
+            closeModal={closeModal}
             setTotal={setTotal}
             setQuote={setQuote}
             setIsWebpage={setIsWebpage}

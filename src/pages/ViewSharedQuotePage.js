@@ -18,9 +18,7 @@ const ViewSharedQuotePage = ({
   //const [isView, setIsView] = useState(false);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const setQuote = () => {
-    console.log("viewing quote, not setting it.");
-  };
+  const setQuote = () => {};
   //console.log("this is locationserach" + location.search);
   let urlObj = {};
   if (queryParams.toString() === "") {
@@ -61,6 +59,10 @@ const ViewSharedQuotePage = ({
   return (
     <div className={vclasses.vlayout}>
       <h2>View Quote</h2>
+      <p>
+        Type the url of the quote you want to view in the browser
+        <br></br>*The data below is read only.
+      </p>
       <div className={vclasses.vcontainer}>
         <Card>
           <form>

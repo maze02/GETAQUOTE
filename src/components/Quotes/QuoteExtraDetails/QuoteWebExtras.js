@@ -1,4 +1,3 @@
-import classes from "./QuoteWebExtras.module.css";
 import WebExtrasButtons from "./WebExtrasButtons";
 import { Panel } from "./QuoteWebExtrasStyled";
 
