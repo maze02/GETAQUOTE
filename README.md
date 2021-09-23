@@ -1,7 +1,7 @@
 # Get Your Quote
 
-The application calculates a quote for the web features you would like.
-It can also organise the quotes submitted in alphabetical order, in terms of selected features and the descending cost.
+Find a quote for a web application, according to the web features you would like.
+Organise the quotes submitted in alphabetical order, in terms of the selected features and the descending cost.
 This was my submission for Sprint 7 at the IT Academy Cibernarium Course.
 
 ## Screenshots
