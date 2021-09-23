@@ -1,6 +1,7 @@
 # Get Your Quote
 
-A site which calculates a quote for the web features you would like.
+The application calculates a quote for the web features you would like.
+It can also organise the quotes submitted in alphabetical order, in terms of selected features and the descending cost.
 This was my submission for Sprint 7 at the IT Academy Cibernarium Course.
 
 ## Screenshots
